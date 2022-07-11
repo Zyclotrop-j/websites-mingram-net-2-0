@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// The editor core
+
 import {
   Card,
   CardHeader,
@@ -34,13 +34,18 @@ import {
   TextInput,
   ImageField,
 } from 'react-admin';
-import { cellPlugins } from '../../plugins/cellPlugins';
-import { demo } from '../../sampleContents/demo';
-import { raAboutUs } from '../../sampleContents/raAboutUs';
+import { cellPlugins } from '../plugins/cellPlugins';
+import { demo } from '../sampleContents/demo';
+import { raAboutUs } from '../sampleContents/raAboutUs';
 import {
   createGenerateClassName,
   StylesProvider,
 } from '@material-ui/core/styles';
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import { useGetIdentity } from 'react-admin';
+
+import authProvider from '../components/authProvider';
+import LoginPage from "../components/LoginForm";
 
 const generateClassName = createGenerateClassName({
   // By enabling this option, if you have non-MUI elements (e.g. `<div />`)
@@ -236,7 +241,18 @@ const ourCellPlugins = [
 ];
 
 const PostList = (props: any) => {
+  const { identity, isLoading: identityLoading } = useGetIdentity();
+  const {
+    isAuthenticated,
+    getAccessTokenSilently
+  } = useAuth0();
+  isAuthenticated && getAccessTokenSilently({
+    audience: `https://websites-2.0.mingram.net/`,
+    scope: "openid profile email read:site edit:site",
+  }).then(i => console.log("!!!", i));
   return (
+    <>
+    {!identityLoading && JSON.stringify(identity, null, "  ")}
     <List {...props}>
       <Datagrid>
         <TextField source="id" />
@@ -245,6 +261,7 @@ const PostList = (props: any) => {
         <ShowButton />
       </Datagrid>
     </List>
+    </>
   );
 };
 
@@ -319,13 +336,50 @@ const products = {
   edit: ProductEdit,
 };
 
+
+const App = () => {
+  const {
+    isAuthenticated,
+    logout,
+    loginWithRedirect,
+    isLoading,
+    error,
+    user,
+    getAccessTokenSilently,
+  } = useAuth0();
+
+  return (<StylesProvider generateClassName={generateClassName}>
+    <Admin
+      dataProvider={dataProvider}
+      title="Example Admin"
+      authProvider={authProvider({
+        isAuthenticated,
+        logout,
+        loginWithRedirect,
+        isLoading,
+        error,
+        user,
+        getAccessTokenSilently
+      })}
+      loginPage={LoginPage}
+      requireAuth
+    >
+      <Resource name="posts" {...posts} />
+      <Resource name="products" {...products} />
+    </Admin>
+  </StylesProvider>);
+
+}
+
 export default function ReactAdminExample() {
   return (
-    <StylesProvider generateClassName={generateClassName}>
-      <Admin dataProvider={dataProvider} title="Example Admin">
-        <Resource name="posts" {...posts} />
-        <Resource name="products" {...products} />
-      </Admin>
-    </StylesProvider>
-  );
+    <Auth0Provider
+      domain="jannes.eu.auth0.com"
+      clientId="8UWY6w13jUH0240WnzVMcrYNhLhrrH9f"
+      redirectUri={`${typeof window !== 'undefined' ? window.location : ''}`}
+      audience="https://websites-2.0.mingram.net/"
+      scope="openid profile email read:site edit:site"
+    >
+      <App />
+    </Auth0Provider>);
 }
