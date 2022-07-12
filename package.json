@@ -13,7 +13,6 @@
     "react-dom": ">= 16.14"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^1.10.2",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.9.0",
     "@emotion/server": "^11.4.0",
@@ -31,10 +30,13 @@
     "@react-page/plugins-spacer": "5.0.1",
     "@react-page/plugins-video": "5.0.1",
     "@react-page/react-admin": "5.0.1",
+    "firebase": "^9.9.0",
+    "lodash": "^4.17.21",
     "next": "^12.1.2",
     "ra-data-fakerest": "3.9.3",
     "react": "^17.0.0",
     "react-admin": "^3.14.2",
+    "react-admin-firebase": "^4.0.2",
     "react-dom": "17",
     "react-katex": "^2.0.2",
     "react-syntax-highlighter": "^15.3.1",

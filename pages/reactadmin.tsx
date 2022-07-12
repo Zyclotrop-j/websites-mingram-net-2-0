@@ -1,385 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  Typography,
-} from '@mui/material';
-import type { Record as RecordType } from 'ra-core';
-import type { CellPlugin } from '@react-page/editor';
-import slate, {
   DEFAULT_SLATE_PLUGIN_ID,
-  pluginFactories,
 } from '@react-page/plugins-slate';
-import {
-  RaReactPageInput,
-  RaSelectReferenceInputField,
-} from '@react-page/react-admin';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import fakeDataProvider from 'ra-data-fakerest';
-import React, { useEffect, useState } from 'react';
-import {
-  Create,
-  Datagrid,
-  Edit,
-  EditButton,
-  List,
-  Resource,
-  ShowButton,
-  SimpleForm,
-  TextField,
-  TextInput,
-  ImageField,
-} from 'react-admin';
+import React from 'react';
 import { cellPlugins } from '../plugins/cellPlugins';
-import { demo } from '../sampleContents/demo';
-import { raAboutUs } from '../sampleContents/raAboutUs';
 import {
-  createGenerateClassName,
   StylesProvider,
 } from '@material-ui/core/styles';
-import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
-import { useGetIdentity } from 'react-admin';
 
-import authProvider from '../components/authProvider';
-import LoginPage from "../components/LoginForm";
 
-const generateClassName = createGenerateClassName({
-  // By enabling this option, if you have non-MUI elements (e.g. `<div />`)
-  // using MUI classes (e.g. `.MuiButton`) they will lose styles.
-  // Make sure to convert them to use `styled()` or `<Box />` first.
-  disableGlobal: true,
-  // Class names will receive this seed to avoid name collisions.
-  seed: 'mui-ra',
-});
+//import LoginPage from "../components/LoginForm";
+import { generateClassName } from '../utils/generateClassName';
+// import { dataProvider } from '../utils/dataProvider';
+import { customSlate } from '../plugins/slatePluginLinkFromReactAdminSource';
+import { recommendedProducts } from '../plugins/slatePluginProductFromReactAdminSource';
 
-// see https://github.com/marmelab/react-admin/issues/5896
-const Admin = dynamic(async () => (await import('react-admin')).Admin, {
-  ssr: false,
-});
-
-// this is a fake dataprovider. Normally you woul use your own data-provider (rest, graphql, etc.)
-const dataProvider = fakeDataProvider({
-  posts: [
-    { id: 'post1', title: 'About us', content: raAboutUs },
-    { id: 'post2', title: 'An empty post' },
-    { id: 'post3', title: 'Demo!', content: demo },
-  ],
-  products: [
-    {
-      id: 'product1',
-      title: 'A Fancy Chair!',
-      imageUrl: 'https://picsum.photos/seed/react-page/800/600',
-      teaserText:
-        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-    },
-    {
-      id: 'product2',
-      title: 'Some miracelous table',
-      imageUrl: 'https://picsum.photos/seed/react-page-is-awesome/800/600',
-      teaserText:
-        'At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua',
-    },
-    {
-      id: 'product3',
-      title: 'Fantastic closet',
-      imageUrl: 'https://picsum.photos/seed/react-admin-as-well/800/600',
-      teaserText:
-        'Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua',
-    },
-  ],
-});
-
-/**
- * This is an example of a slate link plugin that uses react admin to select the target
- */
-const PostIdSelector = (props: any) => (
-  // pass the props
-  <RaSelectReferenceInputField
-    optionText="title"
-    reference="posts"
-    label="Post"
-    {...props}
-  />
-);
-const postLinkPlugin = pluginFactories.createComponentPlugin<{
-  postId: string;
-}>({
-  icon: <span>Post</span>,
-  type: 'postlink',
-  object: 'mark',
-  label: 'Post link',
-  addHoverButton: true,
-  addToolbarButton: true,
-  controls: {
-    type: 'autoform',
-    schema: {
-      required: ['postId'],
-      type: 'object',
-      properties: {
-        postId: {
-          type: 'string',
-          uniforms: {
-            // you should lazy load this
-            component: PostIdSelector,
-          },
-        },
-      },
-    },
-  },
-  // this code here lives primarly in your frontend, you would create the link however you like
-  // and you would probably read more data from your datasource
-  // this is just a simple example. The link dofes actually not work in our example, but you should get the idea
-  Component: (props: any) => (
-    <Link href={'/posts/' + props.postId}>
-      <a>{props.children}</a>
-    </Link>
-  ),
-});
-
-// let's add a custom slate plugin
-const customSlate = slate((def) => ({
-  ...def,
-  plugins: {
-    ...def.plugins,
-    link: {
-      ...def.plugins.link,
-      postLink: postLinkPlugin,
-    },
-  },
-}));
-
-const ProductIdSelector = (props: any) => (
-  // pass the props
-  <RaSelectReferenceInputField
-    {...props}
-    optionText="title"
-    reference="products"
-    label="Product"
-  />
-);
-
-const ProductTeaser: React.FC<{ productId: string }> = ({ productId }) => {
-  // this component would live in your frontend
-  // you won't load data from admin here, but from the public frontend api
-  // for this example, we use the dataprovider, but in real-live-applications, that would not be the case
-  const [product, setProduct] = useState<RecordType | null>(null);
-  useEffect(() => {
-    dataProvider
-      .getOne('products', { id: productId })
-      .then((r) => setProduct(r.data));
-  }, [productId]);
-  return product ? (
-    <Card>
-      <CardMedia
-        image={product.imageUrl}
-        title={product.title}
-        style={{ height: 240 }}
-      />
-      <CardHeader title={product.title} />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {product.teaserText}
-        </Typography>
-      </CardContent>
-    </Card>
-  ) : null;
-};
-const recommendedProducts: CellPlugin<{
-  productIds: string[];
-  title: string;
-}> = {
-  id: 'recommendedProducts',
-  title: 'Recommended Products',
-  Renderer: (props: any) => (
-    <div>
-      <h3>{props.data.title}</h3>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gap: 10,
-        }}
-      >
-        {props.data.productIds?.map((id: string) => (
-          <ProductTeaser productId={id} key={id} />
-        ))}
-      </div>
-    </div>
-  ),
-  version: 1,
-  controls: {
-    type: 'autoform',
-    columnCount: 1,
-    schema: {
-      required: ['title', 'productIds'],
-      properties: {
-        title: {
-          type: 'string',
-          default: 'Our recommended products',
-        },
-        productIds: {
-          type: 'array',
-          items: {
-            type: 'string',
-            uniforms: {
-              component: ProductIdSelector,
-            },
-          },
-        },
-      },
-    },
-  },
-};
-const ourCellPlugins = [
+export const ourCellPlugins = [
   customSlate,
   recommendedProducts,
   ...cellPlugins.filter((p) => p.id !== DEFAULT_SLATE_PLUGIN_ID),
 ];
 
-const PostList = (props: any) => {
-  const { identity, isLoading: identityLoading } = useGetIdentity();
-  const {
-    isAuthenticated,
-    getAccessTokenSilently
-  } = useAuth0();
-  isAuthenticated && getAccessTokenSilently({
-    audience: `https://websites-2.0.mingram.net/`,
-    scope: "openid profile email read:site edit:site",
-  }).then(i => console.log("!!!", i));
-  return (
-    <>
-    {!identityLoading && JSON.stringify(identity, null, "  ")}
-    <List {...props}>
-      <Datagrid>
-        <TextField source="id" />
-        <TextField source="title" />
-        <EditButton />
-        <ShowButton />
-      </Datagrid>
-    </List>
-    </>
-  );
-};
-
-export const PostEdit = (props: any) => (
-  <Edit title="Edit a Post" {...props}>
-    <SimpleForm label="summary">
-      <TextInput disabled source="id" />
-      <TextInput source="title" />
-      <RaReactPageInput
-        source="content"
-        label="Content"
-        cellPlugins={ourCellPlugins}
-      />
-    </SimpleForm>
-  </Edit>
-);
-
-export const PostCreate = (props: any) => (
-  <Create title="Create a Post" {...props}>
-    <SimpleForm label="summary">
-      <TextInput source="id" />
-      <TextInput source="title" />
-    </SimpleForm>
-  </Create>
-);
-
-const posts = {
-  list: PostList,
-  create: PostCreate,
-  edit: PostEdit,
-};
-
-const ProductList = (props: any) => {
-  return (
-    <List {...props}>
-      <Datagrid>
-        <TextField source="id" />
-        <TextField source="title" />
-        <ImageField source="imageUrl" />
-        <EditButton />
-        <ShowButton />
-      </Datagrid>
-    </List>
-  );
-};
-
-export const ProductEdit = (props: any) => (
-  <Edit title="Edit a Product" {...props}>
-    <SimpleForm label="summary">
-      <TextInput disabled source="id" />
-      <TextInput source="title" />
-      <TextInput multiline source="teaserText" />
-      <TextInput source="imageUrl" />
-    </SimpleForm>
-  </Edit>
-);
-
-export const ProductCreate = (props: any) => (
-  <Create title="Create a Product" {...props}>
-    <SimpleForm label="summary">
-      <TextInput source="id" />
-      <TextInput source="title" />
-      <TextInput multiline source="teaserText" />
-      <TextInput source="imageUrl" />
-    </SimpleForm>
-  </Create>
-);
-
-const products = {
-  list: ProductList,
-  create: ProductCreate,
-  edit: ProductEdit,
-};
-
+const DynamicAdminComponent = dynamic(
+  () => import("../utils/AdminComponent"),
+  { ssr: false }
+)
 
 const App = () => {
-  const {
-    isAuthenticated,
-    logout,
-    loginWithRedirect,
-    isLoading,
-    error,
-    user,
-    getAccessTokenSilently,
-  } = useAuth0();
 
   return (<StylesProvider generateClassName={generateClassName}>
-    <Admin
-      dataProvider={dataProvider}
-      title="Example Admin"
-      authProvider={authProvider({
-        isAuthenticated,
-        logout,
-        loginWithRedirect,
-        isLoading,
-        error,
-        user,
-        getAccessTokenSilently
-      })}
-      loginPage={LoginPage}
-      requireAuth
-    >
-      <Resource name="posts" {...posts} />
-      <Resource name="products" {...products} />
-    </Admin>
+    <DynamicAdminComponent />
   </StylesProvider>);
 
 }
 
 export default function ReactAdminExample() {
   return (
-    <Auth0Provider
-      domain="jannes.eu.auth0.com"
-      clientId="8UWY6w13jUH0240WnzVMcrYNhLhrrH9f"
-      redirectUri={`${typeof window !== 'undefined' ? window.location : ''}`}
-      audience="https://websites-2.0.mingram.net/"
-      scope="openid profile email read:site edit:site"
-    >
       <App />
-    </Auth0Provider>);
+    );
 }
