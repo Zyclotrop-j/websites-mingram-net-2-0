@@ -5,27 +5,27 @@ import { products } from '../datatypes/product';
 import { pages } from '../datatypes/page';
 import { dataProvider, authProvider } from "./provider";
 
-const useGetEmail = () => {
-  const [state, setState] = useState({ init: false });
-  useEffect(() => {
-    authProvider.checkAuth().then(i => setState({ i, init: true, email: i.email, uid: i.uid })) // -> this has email
-  }, []);
-  return state;
+const dynamicResources = async (permissions) => {
+  console.log(permissions);
+  const user = await authProvider.checkAuth();
+  console.log(user);
+  return [
+    <Resource name={`users/${user.uid}/pages`} options={{label: "pages"}} {...pages} />,
+    <Resource name={`users/${user.uid}/products`} options={{label: "product"}} {...products} />
+  ];
 }
  
-// <Resource name="products" {...products} />
+// 
 
 export default function AdminComponent() {
-  const { email, init, uid, i } = useGetEmail();
-  if(!init) { return null };
-  console.log(i);
+
   return <Admin
     title="Example Admin"
     dataProvider={dataProvider}
     authProvider={authProvider}
     //loginPage={LoginPage}
-    //requireAuth
+    requireAuth
   >
-    <Resource name={`users/${uid}/pages`} options={{label: "pages"}} {...pages} />
+    {dynamicResources}
   </Admin>;
 }
