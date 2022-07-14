@@ -9,11 +9,11 @@ import { cellPlugins } from '../plugins/cellPlugins';
 import {
   StylesProvider,
 } from '@material-ui/core/styles';
+import '@react-page/editor/lib/index.css';
+import '@react-page/plugins-slate/lib/index.css';
+import '@react-page/plugins-image/lib/index.css';
 
-
-//import LoginPage from "../components/LoginForm";
 import { generateClassName } from '../utils/generateClassName';
-// import { dataProvider } from '../utils/dataProvider';
 import { customSlate } from '../plugins/slatePluginLinkFromReactAdminSource';
 import { recommendedProducts } from '../plugins/slatePluginProductFromReactAdminSource';
 

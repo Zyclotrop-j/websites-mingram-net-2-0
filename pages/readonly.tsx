@@ -10,10 +10,10 @@ import { demoSimpleReadOnly } from '../../sampleContents/demoSimpleReadOnly';
 
 // Stylesheets for the rich text area plugin
 // uncomment this
-//import '@react-page/plugins-slate/lib/index.css';
+import '@react-page/plugins-slate/lib/index.css';
 
 // Stylesheets for the imagea plugin
-//import '@react-page/plugins-image/lib/index.css';
+import '@react-page/plugins-image/lib/index.css';
 
 // Define which plugins we want to use.
 const cellPlugins = [slate(), image];
