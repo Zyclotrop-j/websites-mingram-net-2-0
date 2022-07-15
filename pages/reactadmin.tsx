@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import '../utils/styles';
 
 import {
   DEFAULT_SLATE_PLUGIN_ID,

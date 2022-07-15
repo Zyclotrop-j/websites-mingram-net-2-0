@@ -11,6 +11,7 @@ const customLayoutPluginWithInitialState: CellPlugin<{
   version: 1,
   Renderer: ({ children, data }) => (
     <div
+      className="slate"
       style={{
         border: '1px solid black',
         padding: 50,
@@ -36,7 +37,7 @@ const customLayoutPluginWithInitialState: CellPlugin<{
   createInitialChildren: () => {
     return [
       [
-        {
+        /*{
           plugin: customizedSlate,
           data: customizedSlate.createData(({ plugins }) => ({
             children: [
@@ -50,7 +51,7 @@ const customLayoutPluginWithInitialState: CellPlugin<{
               },
             ],
           })),
-        },
+        },*/
         {
           plugin: defaultSlate,
           data: defaultSlate.createData(({ plugins }) => ({
@@ -97,8 +98,8 @@ const customLayoutPluginWithInitialState: CellPlugin<{
       ],
       [
         {
-          plugin: customizedSlate,
-          data: customizedSlate.createData(({ plugins }) => ({
+          plugin: defaultSlate,
+          data: defaultSlate.createData(({ plugins }) => ({
             children: [
               {
                 plugin: plugins.headings.h2,

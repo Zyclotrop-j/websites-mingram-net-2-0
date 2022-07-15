@@ -1,14 +1,15 @@
 import slate from '@react-page/plugins-slate';
-// import css as well. currently, we caannot do this here in the demo project and have moved that to _app.tsx
-// see https://github.com/vercel/next.js/issues/19717
-// import '@react-page/plugins-slate/lib/index.css';
-
 import React from 'react';
 import customSlatePlugin from './customSlatePlugin';
 import katexSlatePlugin from './katexSlatePlugin';
 import styled from 'styled-components';
+
+
+// you can further customize slate to your needs
 export const defaultSlate = slate((def) => ({
   ...def,
+  name: def.id + '/reduced', // you have to give it some other name
+  // hideInMenu: true, // don't show in insert menu, we only use it as intial children
   plugins: {
     // this will pull in all predefined plugins
     ...def.plugins,
@@ -17,15 +18,6 @@ export const defaultSlate = slate((def) => ({
       custom1: customSlatePlugin,
       katex: katexSlatePlugin,
     },
-  },
-}));
-
-// you can further customize slate to your needs
-export const customizedSlate = slate((def) => ({
-  ...def,
-  name: def.id + '/reduced', // you have to give it some other name
-  hideInMenu: true, // don't show in insert menu, we only use it as intial children
-  plugins: {
     // here we do not use all plugins, but select them
     headings: {
       h2: def.plugins.headings.h2,
@@ -72,8 +64,17 @@ export const customizedSlate = slate((def) => ({
         };
       }),
     },
-    paragraphs: def.plugins.paragraphs,
+    paragraphs: {
+      paragraph: def.plugins.paragraphs.paragraph((d) => {
+        return {
+          ...d,
+          Component: props => <p data-foo="bar">{props.children}</p>
+        };
+      })
+    },
     emphasize: def.plugins.emphasize,
     alignment: def.plugins.alignment,
   },
 }));
+
+export const customizedSlate = defaultSlate;
