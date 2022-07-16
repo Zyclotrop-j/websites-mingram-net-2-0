@@ -1,20 +1,17 @@
-import '../utils/styles';
+import { cellPlugins } from '../plugins/cellPlugins';
 
 import Editor from '@react-page/editor';
-import { cellPlugins } from "../plugins/cellPlugins";
-import React from 'react';
-import { demoSimpleReadOnly } from '../sampleContents/demoSimpleReadOnly';
-import { raAboutUs } from '../sampleContents/raAboutUs';
-
-const content = `{"version":1,"id":"2yulvj","rows":[{"id":"iy524b","cells":[{"id":"tx9oif","size":12,"dataI18n":{},"rows":[{"id":"53ddtu","cells":[{"id":"0esmyk","size":12,"plugin":{"id":"ory/editor/core/content/spacer","version":1},"dataI18n":{"default":{"height":148}},"rows":[],"inline":null}]},{"id":"thkliu","cells":[{"id":"70r1i4","size":12,"plugin":{"id":"ory/editor/core/content/divider","version":1},"dataI18n":{"default":null},"rows":[],"inline":null}]},{"id":"hzx3d1","cells":[{"size":9,"plugin":{"id":"custom-layout-plugin-initial-state","version":1},"id":"dfjuut","dataI18n":{"default":{"backgroundColor":"#ffeeaa"}},"rows":[{"id":"pb1otk","cells":[{"id":"n68sas","plugin":{"id":"ory/editor/core/content/slate","version":1},"size":6,"dataI18n":{"default":{"slate":[{"type":"HEADINGS/HEADING-THREE","children":[{"text":"Hello world"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Title and paragraph"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]},{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Hello World"}]}]}},"rows":[],"inline":null},{"dataI18n":{"default":{"slate":[{"children":[{"text":"A default list"}],"type":"HEADINGS/HEADING-ONE"},{"type":"LISTS/UNORDERED-LIST","children":[{"children":[{"children":[{"text":"one"}],"type":"PARAGRAPH/PARAGRAPH"}],"type":"LISTS/LIST-ITEM"},{"children":[{"children":[{"text":"two"}],"type":"PARAGRAPH/PARAGRAPH"}],"type":"LISTS/LIST-ITEM"},{"children":[{"children":[{"text":"three"}],"type":"PARAGRAPH/PARAGRAPH"}],"type":"LISTS/LIST-ITEM"}]}]}},"id":"h4n0n9","size":6,"plugin":{"id":"ory/editor/core/content/slate","version":1},"rows":[],"inline":null}]},{"id":"ju7c8r","cells":[{"dataI18n":{"default":{"slate":[{"children":[{"text":"Hello world"}],"type":"HEADINGS/HEADING-TWO","align":"center"},{"children":[{"text":"Another entry HI!"}],"type":"PARAGRAPH/PARAGRAPH","align":"center"},{"children":[{"text":"This is a custom slate component with additional html elements"}],"type":"HEADINGS/HEADING-FOUR"},{"align":"center","children":[{"text":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. "}],"type":"PARAGRAPH/PARAGRAPH"}]}},"id":"z8re0z","plugin":{"id":"ory/editor/core/content/slate","version":1},"size":12,"rows":[],"inline":null}]}],"inline":null},{"id":"vai9pa","size":3,"plugin":{"id":"ory/editor/core/content/slate","version":1},"dataI18n":{"default":{"slate":[{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":"Some more text"}]}]}},"rows":[],"inline":null}]}],"inline":null}]},{"id":"8bszbh","cells":[{"dataI18n":{"default":{"slate":[{"children":[{"text":"Text text"}],"type":"PARAGRAPH/PARAGRAPH"}]}},"plugin":{"id":"ory/editor/core/content/slate","version":1},"id":"fz0j5m","size":12,"rows":[],"inline":null}]},{"id":"luzubg","cells":[{"id":"d59uhe","size":12,"plugin":{"id":"ory/editor/core/content/slate","version":1},"dataI18n":{"default":{"slate":[{"type":"PARAGRAPH/PARAGRAPH","children":[{"text":""}]},{"type":"LISTS/ORDERED-LIST","children":[{"children":[{"text":"Hello World"}],"type":"LISTS/LIST-ITEM"},{"children":[{"text":"Hello World"}],"type":"LISTS/LIST-ITEM"},{"children":[{"text":"Hello World"}],"type":"LISTS/LIST-ITEM"},{"children":[{"text":"Hello World"}],"type":"LISTS/LIST-ITEM"},{"type":"HEADINGS/HEADING-ONE","children":[{"text":"Title heading"}]},{"type":"CODE/CODE","children":[{"children":[{"text":"Yay, code!!"}]}],"data":null},{"type":"BLOCKQUOTE/BLOCKQUOTE","children":[{"children":[{"text":"And a quote!!"}]}],"data":null},{"children":[{"text":""}]},{"children":[{"text":"etc"}]}]}]}},"rows":[],"inline":null}]}]}`;
+import React from 'react'; 
 
 import '@react-page/plugins-slate/lib/index.css';
 import '@react-page/plugins-image/lib/index.css';
 import '@react-page/editor/lib/index.css';
 
+const content = "PAGE_CONTENT";
+
 export default function ReadOnlyExample() {
   // you would usually load SAMPLE_CONTENT from some api / endpoint / database
   return (
-      <Editor value={JSON.parse(content)} cellPlugins={cellPlugins} readOnly />
+      <Editor value={content} cellPlugins={cellPlugins} readOnly />
   );
 }

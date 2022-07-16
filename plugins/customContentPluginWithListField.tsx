@@ -1,24 +1,7 @@
-import type { CellPlugin } from '@react-page/editor';
 import React from 'react';
 
-type Address = {
-  street: string;
-  city: string;
-  zipCode: string;
-};
-type Shop = {
-  name: string;
-  address: Address;
-};
-
-type State = {
-  title: string;
-  shops: Shop[];
-};
-
-const customContentPluginWithListField: CellPlugin<State> = {
-  Renderer: ({ data }) => (
-    <div>
+const customContentPluginWithListField = {
+  Renderer: ({ data }) => (<div>
       <h1>{data.title}</h1>
       <p>Shops:</p>
       <ul>
@@ -37,8 +20,7 @@ const customContentPluginWithListField: CellPlugin<State> = {
             );
           })}
       </ul>
-    </div>
-  ),
+    </div>),
   id: 'custom-content-plugin-with-list',
   title: 'Custom content Plugin shop list',
 

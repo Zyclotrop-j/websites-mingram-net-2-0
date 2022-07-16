@@ -1,10 +1,7 @@
-import type { CellPlugin } from '@react-page/editor';
 import React from 'react';
 import { defaultSlate, customizedSlate } from './slate';
 
-const customLayoutPlugin: CellPlugin<{
-  backgroundColor: string;
-}> = {
+const customLayoutPlugin = {
   Renderer: ({ children, data }) => (
     <div
       style={{

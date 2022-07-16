@@ -1,10 +1,7 @@
-import type { CellPlugin } from '@react-page/editor';
 import React from 'react';
 import { defaultSlate, customizedSlate } from './slate';
 
-const customLayoutPluginWithInitialState: CellPlugin<{
-  backgroundColor: string;
-}> = {
+const customLayoutPluginWithInitialState = {
   id: 'custom-layout-plugin-initial-state',
   title: 'Custom layout plugin with initial text',
   description: 'Some custom layout plugin with initial text',

@@ -37,6 +37,8 @@ const App = () => {
 
 }
 
+// https://github.com/EventSource/eventsource for /sse path (this one allows headers)
+
 export default function ReactAdminExample() {
   return (
       <App />

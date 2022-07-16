@@ -2,9 +2,7 @@ import { ColorPickerField } from '@react-page/editor';
 import { pluginFactories } from '@react-page/plugins-slate';
 import React from 'react';
 
-export default pluginFactories.createComponentPlugin<{
-  color: string;
-}>({
+export default pluginFactories.createComponentPlugin({
   addHoverButton: true, // whether to show it above the text when selected
   addToolbarButton: true, // whether to show it in the bottom toolbar
   type: 'SetColor', // a well defined string, this is kind of the id of the plugin

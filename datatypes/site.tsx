@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Create,
   Datagrid,
@@ -11,8 +12,9 @@ import {
   ReferenceArrayInput,
   SelectArrayInput,
   ReferenceManyField,
+  useRecordContext,
 } from 'react-admin';
-import { useGetIdentity } from 'react-admin';
+import { useAuthProvider } from 'react-admin';
 import { useUid } from "../utils/UidContext"
 
 const SiteList = (props: any) => {
@@ -44,6 +46,29 @@ const SiteList = (props: any) => {
   );
 };
 
+const PublishButton = () => {
+  
+  const authProvider = useAuthProvider();
+  const record = useRecordContext();
+  const publish = useCallback(async () => {
+    const user = await authProvider.checkAuth();
+    const token = await user.getIdToken(false);
+    console.log(record);
+    const rawresponse = await fetch('https://4000-zyclotropj-websitesming-gtg1p2bdc8b.ws-us54.gitpod.io/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ site: record.id }),
+    });
+    const jsonresponse = await rawresponse.json();
+    console.log(jsonresponse);
+  }, [record.id]);
+  return <Button onClick={publish}>Publish</Button>;
+};
+
 export const SiteEdit = (props: any) => {
   const uid = useUid();
   return (<Edit title="Edit a Site" {...props}>
@@ -57,6 +82,7 @@ export const SiteEdit = (props: any) => {
           <TextField source="title" />
         </Datagrid>
       </ReferenceManyField>
+      <PublishButton />
     </SimpleForm>
   </Edit>);
 };

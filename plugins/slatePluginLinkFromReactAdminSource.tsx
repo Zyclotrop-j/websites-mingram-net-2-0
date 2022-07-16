@@ -7,7 +7,7 @@ import slate from '@react-page/plugins-slate';
 /**
  * This is an example of a slate link plugin that uses react admin to select the target
  */
-const PostIdSelector = (props: any) => (
+const PostIdSelector = (props) => (
   // pass the props
   <RaSelectReferenceInputField
     optionText="title"
@@ -15,9 +15,7 @@ const PostIdSelector = (props: any) => (
     label="Post"
     {...props} />
 );
-export const postLinkPlugin = pluginFactories.createComponentPlugin<{
-  postId: string;
-}>({
+export const postLinkPlugin = pluginFactories.createComponentPlugin({
   icon: <span>Post</span>,
   type: 'postlink',
   object: 'mark',

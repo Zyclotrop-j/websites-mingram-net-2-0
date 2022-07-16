@@ -1,14 +1,6 @@
-import type { CellPlugin } from '@react-page/editor';
 import React from 'react';
 
-const customLayoutPlugin: CellPlugin<{
-  backgroundColor: string;
-  paddingX: number;
-  paddingY: number;
-  cellSpacingOverride?: boolean;
-  cellSpacingX: number;
-  cellSpacingY: number;
-}> = {
+const customLayoutPlugin = {
   Renderer: ({ children, data }) => (
     <div
       style={{

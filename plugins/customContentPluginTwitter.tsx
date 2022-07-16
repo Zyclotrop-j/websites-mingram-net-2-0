@@ -1,14 +1,8 @@
-import type { CellPlugin } from '@react-page/editor';
 import React from 'react';
 import { Timeline } from 'react-twitter-widgets';
 
-type Data = {
-  screenName: string;
-  height: number;
-  title: string;
-};
 // you can pass the shape of the data as the generic type argument
-const customContentPluginTwitter: CellPlugin<Data> = {
+const customContentPluginTwitter = {
   Renderer: ({ data }) => (
     <div>
       <h4>{data.title}</h4>

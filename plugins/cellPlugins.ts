@@ -11,7 +11,6 @@ import html5video from '@react-page/plugins-html5-video';
 import '@react-page/plugins-html5-video/lib/index.css';
 
 // The image plugin
-import type { ImageUploadType } from '@react-page/plugins-image';
 import { imagePlugin } from '@react-page/plugins-image';
 import '@react-page/plugins-image/lib/index.css';
 
@@ -32,7 +31,7 @@ import customContentPluginTwitter from './customContentPluginTwitter';
 import codeSnippet from './codeSnippet';
 import contactForm from './contactForm';
 
-const fakeImageUploadService: (url: string) => ImageUploadType =
+const fakeImageUploadService =
   (defaultUrl) => (file, reportProgress) => {
     return new Promise((resolve, reject) => {
       let counter = 0;

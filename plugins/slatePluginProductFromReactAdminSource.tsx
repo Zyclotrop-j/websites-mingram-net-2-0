@@ -11,7 +11,7 @@ import { RaSelectReferenceInputField } from '@react-page/react-admin';
 import React, { useEffect, useState } from 'react';
 import { dataProvider } from '../utils/dataProvider';
 
-const ProductIdSelector = (props: any) => (
+const ProductIdSelector = (props) => (
   // pass the props
   <RaSelectReferenceInputField
     {...props}
@@ -19,7 +19,7 @@ const ProductIdSelector = (props: any) => (
     reference="products"
     label="Product" />
 );
-const ProductTeaser: React.FC<{ productId: string; }> = ({ productId }) => {
+const ProductTeaser = ({ productId }) => {
   // this component would live in your frontend
   // you won't load data from admin here, but from the public frontend api
   // for this example, we use the dataprovider, but in real-live-applications, that would not be the case
@@ -44,13 +44,10 @@ const ProductTeaser: React.FC<{ productId: string; }> = ({ productId }) => {
     </Card>
   ) : null;
 };
-export const recommendedProducts: CellPlugin<{
-  productIds: string[];
-  title: string;
-}> = {
+export const recommendedProducts = {
   id: 'recommendedProducts',
   title: 'Recommended Products',
-  Renderer: (props: any) => (
+  Renderer: (props) => (
     <div>
       <h3>{props.data.title}</h3>
       <div
@@ -60,7 +57,7 @@ export const recommendedProducts: CellPlugin<{
           gap: 10,
         }}
       >
-        {props.data.productIds?.map((id: string) => (
+        {props.data.productIds?.map((id) => (
           <ProductTeaser productId={id} key={id} />
         ))}
       </div>

@@ -1,14 +1,10 @@
-import type { CellPlugin } from '@react-page/editor';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
 // lazy load to keep initial bundle small
 const CodeSnippet = dynamic(() => import('../components/editor/CodeSnippet'));
 
-const codeSnippet: CellPlugin<{
-  code: string;
-  language: string;
-}> = {
+const codeSnippet = {
   Renderer: ({ data }) =>
     data?.code ? (
       <CodeSnippet language={data.language} code={data.code} />

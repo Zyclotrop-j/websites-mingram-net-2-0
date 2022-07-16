@@ -1,4 +1,3 @@
-import type { CellPlugin } from '@react-page/editor';
 import dynamic from 'next/dynamic';
 import React from 'react';
 import type { Field } from '../components/ContactFormExample';
@@ -8,10 +7,7 @@ const ContactFormExample = dynamic(
   () => import('../components/ContactFormExample')
 );
 
-const contactForm: CellPlugin<{
-  fields: Field[];
-  recipientId: string;
-}> = {
+const contactForm = {
   Renderer: ({ data }) => (
     <ContactFormExample fields={data.fields} recipientId={data.recipientId} />
   ),

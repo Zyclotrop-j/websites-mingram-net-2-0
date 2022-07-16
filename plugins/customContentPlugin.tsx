@@ -1,14 +1,8 @@
-import type { CellPlugin } from '@react-page/editor';
 import { ColorPickerField } from '@react-page/editor';
 import React from 'react';
 
-type Palette = {
-  variant: 'default' | 'highlight' | 'custom';
-  customTextColor: string;
-  customBackgroundColor: string;
-};
 
-const getTextColor = (palette: Palette) => {
+const getTextColor = (palette) => {
   if (palette?.variant === 'custom') {
     return palette.customTextColor;
   }
@@ -17,7 +11,7 @@ const getTextColor = (palette: Palette) => {
   }
   return 'black';
 };
-const getBackgroundColor = (palette: Palette) => {
+const getBackgroundColor = (palette) => {
   if (palette?.variant === 'custom') {
     return palette.customBackgroundColor;
   }
@@ -26,16 +20,7 @@ const getBackgroundColor = (palette: Palette) => {
   }
   return 'white';
 };
-const customContentPlugin: CellPlugin<{
-  title: string;
-  firstName: string;
-  lastName: string;
-  age: number;
-  style: {
-    pallete: Palette;
-    padding: number;
-  };
-}> = {
+const customContentPlugin = {
   Renderer: ({ data }) => (
     <div
       style={{

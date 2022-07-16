@@ -1,0 +1,21 @@
+{
+  "name": "server-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^8.0.0",
+    "@fastify/rate-limit": "^7.1.0",
+    "fastify": "^4.2.1",
+    "fastify-sse-v2": "^2.2.1",
+    "firebase-admin": "^11.0.0",
+    "fs-extra": "^10.1.0",
+    "piscina": "^3.2.0",
+    "sanitize-filename": "^1.6.3"
+  }
+}
