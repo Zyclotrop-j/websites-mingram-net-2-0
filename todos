@@ -8,6 +8,7 @@ configure http2 and server-push
 
 make image-upload and responsive images
 -> put files in private and move to custom server (behind cf) on publish?
+OR start with unsplash?
 
 implement sign-up (new user)
 
