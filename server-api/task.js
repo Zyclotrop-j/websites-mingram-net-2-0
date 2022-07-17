@@ -50,10 +50,10 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
     const log = (...args) => {
         port.postMessage(JSON.stringify({ kind: "info", data: args }));
     }
-    const sansiteid = sanitize(site.id)?.toLowerCase();
 
     const db = getFirestore();
     const site = await db.collection(`users/${user_id}/sites`).doc(siteid).get();
+    const sansiteid = sanitize(site.id)?.toLowerCase();
     const { title: sitetitle } = site.data();
     // 'x4iEJ2hndi8VU85zkIX7'
     const pages = await db.collection(`users/${user_id}/pages`).get();
