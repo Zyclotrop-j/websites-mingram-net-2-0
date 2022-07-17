@@ -7,7 +7,7 @@ import {
     AccordionItemButton,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
-import { forceCheck } from 'react-lazyload';
+import LazyLoad , { forceCheck } from 'react-lazyload';
 
 const fadein = keyframes`
   0% {
@@ -77,7 +77,7 @@ export const AccordionItemWidget = ({ _id, data: { level, heading } = {}, childr
           </StyledAccordionItemButton>
       </StyledAccordionItemHeading>
       <StyledAccordionItemPanel>
-          {children}
+          <LazyLoad once scroll={false} resize={false} overflow={false} placeholder={<div>Loading...</div>}>{children}</LazyLoad>
       </StyledAccordionItemPanel>
   </StyledAccordionItem>);
 }
