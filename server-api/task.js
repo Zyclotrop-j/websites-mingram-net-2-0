@@ -165,7 +165,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         // todo: clear directory to remove files that no longer exist!
         await fse.copy(`${dir}/build`, `/var/www/d/${sansiteid}/`, { overwrite: true });
 
-        log("Files in targetdir\n Setting up dns or purging cache")
+        log("Files successfully copied to targetdir\n Setting up dns or purging cache")
 
         const files = await new Promise((res, rej) => walkfiles(`/var/www/d/${sansiteid}`, (err, result) => err ? rej(err) : res(result)));
         const serverfiles = files.map(i => i.replace(`/var/www/d/${sansiteid}`, ''));
