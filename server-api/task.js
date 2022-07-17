@@ -123,8 +123,8 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         
     
         // todo: copy these to the actual host-dir!
-        await fs.mkdir(`${currentdir}/d/${sansiteid}`, { recursive: true });
-        await fse.copy(`${dir}/build`, `${currentdir}/d/${sansiteid}/`, { overwrite: true });
+        await fs.mkdir(`/var/www/d/${sansiteid}`, { recursive: true });
+        await fse.copy(`${dir}/build`, `/var/www/d/${sansiteid}/`, { overwrite: true });
     
         /*
         await fs.mkdir(`${currentdir}/${sansiteid}`, { recursive: true });
