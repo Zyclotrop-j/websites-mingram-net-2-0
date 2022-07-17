@@ -33,28 +33,18 @@ const cf = cloudlfare({
 });
 
 
-const walkfiles = function(dir, done) {
-    let results = [];
-    fs2.readdir(dir, function(err, list) {
-      if (err) return done(err);
-      let pending = list.length;
-      if (!pending) return done(null, results);
-      list.forEach(function(file) {
-        file = path.resolve(dir, file);
-        fs2.stat(file, function(err, stat) {
-            console.log("stat error", err);
-          if (stat && stat.isDirectory()) {
-            walkfiles(file, function(err, res) {
-              results = results.concat(res);
-              if (!--pending) done(null, results);
-            });
-          } else {
-            results.push(file);
-            if (!--pending) done(null, results);
-          }
-        });
-      });
-    });
+const walkfiles = async function(dir) {
+    const files = await fs.readdir(dir);
+    const allfiles = await Promise.all(files.map(async (file) => {
+        const stat = await fs.stat(path.resolve(dir, file));
+        if(stat && stat.isDirectory()) {
+            const discovered = await walkfiles(path.resolve(dir, file));
+            return discovered;
+        } else {
+            return [path.resolve(dir, file)];
+        }
+    }));
+    return allfiles.flat(1);
   };
 
 const withTmpDir = async (cb) => {
@@ -173,10 +163,15 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             const dnsname = `${sansiteid}-d.${records[0].zone_name}`;
             const dnsentry = records.find(({ name }) => name === dnsname);
             if(dnsentry) {
-                const files = await new Promise((res, rej) => walkfiles(`/var/www/d/${sansiteid}`, (err, result) => err ? rej(err) : res(result)));
-                const serverfiles = files.map(i => i.replace(`/var/www/d/${sansiteid}`, ''));
+                const files = await walkfiles(`/var/www/d/${sansiteid}`);
+                const serverfiles = files.map(i => `https://${dnsname}${i.replace(`/var/www/d/${sansiteid}`, '')}`);
                 log(`Found ${serverfiles.length} files to purge\n Puring files`);
-                await cf.zones.purgeCache(zoneid, { files : serverfiles });
+                // max purge 30 urls at once
+                const chunkSize = 30 - 1;
+                for (let i = 0; i < array.length; i += chunkSize) {
+                    const chunk = array.slice(i, i + chunkSize);
+                    await cf.zones.purgeCache(zoneid, { files : chunk });
+                }
                 log(`Cache purged with ${serverfiles.length} files purged\n Done`);
             } else {
                 log(`Found no dns record ${dnsname}\n Adding dns record`);
