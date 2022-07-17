@@ -164,7 +164,9 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             const dnsentry = records.find(({ name }) => name === dnsname);
             if(dnsentry) {
                 const files = await walkfiles(`/var/www/d/${sansiteid}`);
-                const serverfiles = files.map(i => `https://${dnsname}${i.replace(`/var/www/d/${sansiteid}`, '')}`);
+                const rawserverfiles = files.map(i => `https://${dnsname}${i.replace(`/var/www/d/${sansiteid}`, '')}`);
+                const htmlserverfiles = serverfiles.filter(i => i.endsWith('.html') || i.endsWith('.htm')).map(i => i.replace(/\.html?$/, ''));
+                const serverfiles = [...htmlserverfiles, ...rawserverfiles];
                 log(`Found ${serverfiles.length} files to purge\n Puring files`);
                 // max purge 30 urls at once
                 const chunkSize = 30 - 1;
