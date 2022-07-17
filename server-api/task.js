@@ -167,16 +167,17 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
 
         log("Files successfully copied to targetdir\n Setting up dns or purging cache")
 
-        const files = await new Promise((res, rej) => walkfiles(`/var/www/d/${sansiteid}`, (err, result) => err ? rej(err) : res(result)));
-        const serverfiles = files.map(i => i.replace(`/var/www/d/${sansiteid}`, ''));
-
         const { result: records } = cf.dnsRecords.browse(zoneid);
         const dnsname = `${sansiteid}-d.${records[0].zone_name}`;
         const dnsentry = records.find(({ name }) => name === dnsname);
         if(dnsentry) {
+            const files = await new Promise((res, rej) => walkfiles(`/var/www/d/${sansiteid}`, (err, result) => err ? rej(err) : res(result)));
+            const serverfiles = files.map(i => i.replace(`/var/www/d/${sansiteid}`, ''));
+            log(`Found ${serverfiles.length} files to purge\n Puring files`);
             await cf.zones.purgeCache(zoneid, { files : serverfiles });
             log(`Cache purged with ${serverfiles.length} files purged\n Done`);
         } else {
+            log(`Found no dns record ${dnsname}\n Adding dns record`);
             await cf.dnsRecords.add(zoneid, {
                 name: dnsname,
                 type: 'A',
