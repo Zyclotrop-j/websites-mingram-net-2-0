@@ -24,7 +24,7 @@ initializeApp({
   //databaseURL: 'https://<DATABASE_NAME>.firebaseio.com',
   credential: admin.credential.cert(JSON.parse(serviceAccount))
 });
-const cloudflarekey = process.env.CLOUDFLARE_KEY || fs2.readFileSync(`${__dirname}/cloudflare.txt`).toString();
+const cloudflarekey = process.env.CLOUDFLARE_KEY || fs2.readFileSync(`${__dirname}/cloudflare.txt`).toString().trim();
 if(!cloudflarekey) {
     throw new Error(`The cloudflare key was not found!`);
   }
