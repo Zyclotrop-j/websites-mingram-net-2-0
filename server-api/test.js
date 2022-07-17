@@ -3,6 +3,7 @@ const { getAuth } = require('firebase-admin/auth');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore, getDoc, Timestamp, FieldValue } = require('firebase-admin/firestore');
 const fs = require('node:fs/promises');
+const fs2 = require('node:fs');
 const os = require('os');
 const path = require('path');
 const sanitize = require("sanitize-filename");
@@ -67,9 +68,9 @@ fastify.register(require('@fastify/rate-limit'), {
     return k;
   }
 });
-server.register(FastifySSEPlugin);
+fastify.register(FastifySSEPlugin);
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(path.join(__dirname, `websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`)).toString();
 if(!serviceAccount) {
   throw new Error(`The firebase service account was not found!`);
 }
@@ -119,7 +120,7 @@ fastify.post('/', {
     }
   });
 
-  const result = piscina.run({ template: file.toString(), user_id, siteid, dirname: __dirname, port: channel.port1 }, { transferList: [channel.port1] });
+  const result = piscina.run({ template: file.toString(), user_id, siteid, currentdir: __dirname, port: channel.port1 }, { transferList: [channel.port1] });
   result.then(i => console.log(i));
   result.then(() => {
     channel.port2.close();

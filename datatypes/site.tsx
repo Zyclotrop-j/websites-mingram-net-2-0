@@ -54,7 +54,7 @@ const PublishButton = () => {
     const user = await authProvider.checkAuth();
     const token = await user.getIdToken(false);
     console.log(record);
-    const rawresponse = await fetch('https://4000-zyclotropj-websitesming-gtg1p2bdc8b.ws-us54.gitpod.io/', {
+    const rawresponse = await fetch('https://build-websites.mingram.net/', {
       method: 'POST',
       credentials: 'include',
       headers: {

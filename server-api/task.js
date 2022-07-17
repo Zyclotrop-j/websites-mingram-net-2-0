@@ -2,6 +2,7 @@ const admin = require("firebase-admin");
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 const fs = require('node:fs/promises');
+const fs2 = require('node:fs');
 const os = require('os');
 const path = require('path');
 const sanitize = require("sanitize-filename");
@@ -11,7 +12,7 @@ const { parentPort } = require('worker_threads');
 const exec = util.promisify(require('child_process').exec);
 const package = require('../package.json');
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(`${__dirname}/websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`).toString();
 if(!serviceAccount) {
   throw new Error(`The firebase service account was not found!`);
 }
@@ -49,6 +50,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
     const log = (...args) => {
         port.postMessage(JSON.stringify({ kind: "info", data: args }));
     }
+    const sansiteid = sanitize(site.id)?.toLowerCase();
 
     const db = getFirestore();
     const site = await db.collection(`users/${user_id}/sites`).doc(siteid).get();
@@ -117,14 +119,16 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         log("Ran yarn\n Running build....");
         const { stdout2, stderr2 } = await exec(`cd ${dir} && yarn build`);
         log("Ran build\n Finalising....")
+
+        
     
         // todo: copy these to the actual host-dir!
-        await fs.mkdir(`${currentdir}/${sanitize(site.id)}`, { recursive: true });
-        await fse.copy(`${dir}/build`, `${currentdir}/${sanitize(site.id)}/`, { overwrite: true });
+        await fs.mkdir(`${currentdir}/d/${sansiteid}`, { recursive: true });
+        await fse.copy(`${dir}/build`, `${currentdir}/d/${sansiteid}/`, { overwrite: true });
     
         /*
-        await fs.mkdir(`${currentdir}/${sanitize(site.id)}`, { recursive: true });
-        fse.copySync(dir, `${currentdir}/${sanitize(site.id)}/`, { overwrite: true }, function (err) {
+        await fs.mkdir(`${currentdir}/${sansiteid}`, { recursive: true });
+        fse.copySync(dir, `${currentdir}/${sansiteid}/`, { overwrite: true }, function (err) {
             if (err) {                 
             console.error(err);     
             } else {
