@@ -1,0 +1,31 @@
+test publishing new sites
+
+configure nginx headers for efficient caching on everything
+configure other heads e.g. csp, feature-policy, client-hints, x-frame, ...
+configure http2 and server-push
+- Cross-Origin-Opener-Policy: same-origin
+- Cross-Origin-Embedder-Policy: require-corp
+
+make image-upload and responsive images
+-> put files in private and move to custom server (behind cf) on publish?
+
+implement sign-up (new user)
+
+publish editor tool tto some website
+
+implement theming support
+
+make sample layouts (landing, basic website)
+
+write all the widgets
+
+provide sample pages / widget-configurations as snippets
+
+test on mobile
+
+implement delete
+
+implement saveable snippets (e.g. menu on each page)
+
+implement server-functionality (e.g. contact-form) and integrations (e.g. typeform, shopify)
+
