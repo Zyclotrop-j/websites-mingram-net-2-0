@@ -11,6 +11,10 @@ const util = require('util');
 const { parentPort } = require('worker_threads');
 const exec = util.promisify(require('child_process').exec);
 const package = require('../package.json');
+const cloudlfare = require('cloudflare');
+
+const zoneid = 'd76e37dc8e30f49f8948833bdd2cbd55';
+const contentServerIp = '152.69.163.246';
 
 const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(`${__dirname}/websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`).toString();
 if(!serviceAccount) {
@@ -20,6 +24,37 @@ initializeApp({
   //databaseURL: 'https://<DATABASE_NAME>.firebaseio.com',
   credential: admin.credential.cert(JSON.parse(serviceAccount))
 });
+const cloudflarekey = process.env.CLOUDFLARE_KEY || fs2.readFileSync(`${__dirname}/cloudflare.txt`).toString();
+if(!cloudflarekey) {
+    throw new Error(`The cloudflare key was not found!`);
+  }
+const cf = cloudlfare({
+    token: cloudflarekey
+});
+
+
+const walkfiles = function(dir, done) {
+    let results = [];
+    fs2.readdir(dir, function(err, list) {
+      if (err) return done(err);
+      let pending = list.length;
+      if (!pending) return done(null, results);
+      list.forEach(function(file) {
+        file = path.resolve(dir, file);
+        fs.stat(file, function(err, stat) {
+          if (stat && stat.isDirectory()) {
+            walkfiles(file, function(err, res) {
+              results = results.concat(res);
+              if (!--pending) done(null, results);
+            });
+          } else {
+            results.push(file);
+            if (!--pending) done(null, results);
+          }
+        });
+      });
+    });
+  };
 
 const withTmpDir = async (cb) => {
     let tmpDir;
@@ -124,23 +159,36 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         const { stdout, stderr } = await exec(`cd ${dir} && yarn`);
         log("Ran yarn\n Running build....");
         const { stdout2, stderr2 } = await exec(`cd ${dir} && yarn build`);
-        log("Ran build\n Finalising....")
-
-        
+        log("Ran build\n Copying to targetdir")
     
-        // todo: copy these to the actual host-dir!
         await fs.mkdir(`/var/www/d/${sansiteid}`, { recursive: true });
+        // todo: clear directory to remove files that no longer exist!
         await fse.copy(`${dir}/build`, `/var/www/d/${sansiteid}/`, { overwrite: true });
-    
+
+        log("Files in targetdir\n Setting up dns or purging cache")
+
+        const files = await new Promise((res, rej) => walkfiles(`/var/www/d/${sansiteid}`, (err, result) => err ? rej(err) : res(result)));
+        const serverfiles = files.map(i => i.replace(`/var/www/d/${sansiteid}`, ''));
+
+        const { result: records } = cf.dnsRecords.browse(zoneid);
+        const dnsname = `${sansiteid}-d.${records[0].zone_name}`;
+        const dnsentry = records.find(({ name }) => name === dnsname);
+        if(dnsentry) {
+            await cf.zones.purgeCache(zoneid, { files : serverfiles });
+            log(`Cache purged with ${serverfiles.length} files purged\n Done`);
+        } else {
+            await cf.dnsRecords.add(zoneid, {
+                name: dnsname,
+                type: 'A',
+                content: contentServerIp,
+                proxiable: true,
+                proxied: true,
+            });
+            log(`Created dns record for ${dnsname}\n Done`);
+        }
+        // todo delete:
         /*
-        await fs.mkdir(`${currentdir}/${sansiteid}`, { recursive: true });
-        fse.copySync(dir, `${currentdir}/${sansiteid}/`, { overwrite: true }, function (err) {
-            if (err) {                 
-            console.error(err);     
-            } else {
-            log("success!");
-            }
-        });
+            await cf.dnsRecords.del(zoneid, dnsentry.id)
         */
     });
     return { count: writeOps.length, sitetitle };

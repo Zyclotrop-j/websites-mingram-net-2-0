@@ -11,6 +11,7 @@
   "dependencies": {
     "@fastify/cors": "^8.0.0",
     "@fastify/rate-limit": "^7.1.0",
+    "cloudflare": "^2.9.1",
     "fastify": "^4.2.1",
     "fastify-sse-v2": "^2.2.1",
     "firebase-admin": "^11.0.0",
