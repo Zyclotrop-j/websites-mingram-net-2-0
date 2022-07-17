@@ -12,8 +12,11 @@ make image-upload and responsive images
 implement sign-up (new user)
 
 publish editor tool tto some website
+-> make ci/cd pipeline
 
 implement theming support
+
+implement suport for publishing status (server-send-events)
 
 make sample layouts (landing, basic website)
 
