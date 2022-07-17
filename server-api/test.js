@@ -70,7 +70,7 @@ fastify.register(require('@fastify/rate-limit'), {
 });
 fastify.register(FastifySSEPlugin);
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(path.join(__dirname, `websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`)).toString();
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(path.join(__dirname, `websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`))?.toString();
 if(!serviceAccount) {
   throw new Error(`The firebase service account was not found!`);
 }

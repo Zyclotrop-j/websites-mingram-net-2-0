@@ -16,7 +16,7 @@ const cloudlfare = require('cloudflare');
 const zoneid = 'd76e37dc8e30f49f8948833bdd2cbd55';
 const contentServerIp = '152.69.163.246';
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(`${__dirname}/websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`).toString();
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(`${__dirname}/websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`)?.toString();
 if(!serviceAccount) {
   throw new Error(`The firebase service account was not found!`);
 }
@@ -24,7 +24,7 @@ initializeApp({
   //databaseURL: 'https://<DATABASE_NAME>.firebaseio.com',
   credential: admin.credential.cert(JSON.parse(serviceAccount))
 });
-const cloudflarekey = process.env.CLOUDFLARE_KEY || fs2.readFileSync(`${__dirname}/cloudflare.txt`).toString().trim();
+const cloudflarekey = process.env.CLOUDFLARE_KEY || fs2.readFileSync(`${__dirname}/cloudflare.txt`)?.toString()?.trim();
 if(!cloudflarekey) {
     throw new Error(`The cloudflare key was not found!`);
   }
