@@ -41,7 +41,8 @@ const walkfiles = function(dir, done) {
       if (!pending) return done(null, results);
       list.forEach(function(file) {
         file = path.resolve(dir, file);
-        fs.stat(file, function(err, stat) {
+        fs2.stat(file, function(err, stat) {
+            console.log("stat error", err);
           if (stat && stat.isDirectory()) {
             walkfiles(file, function(err, res) {
               results = results.concat(res);
