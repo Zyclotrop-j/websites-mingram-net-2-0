@@ -167,7 +167,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
 
         log("Files successfully copied to targetdir\n Setting up dns or purging cache")
 
-        const { result: records } = cf.dnsRecords.browse(zoneid);
+        const { result: records } = await cf.dnsRecords.browse(zoneid);
         const dnsname = `${sansiteid}-d.${records[0].zone_name}`;
         const dnsentry = records.find(({ name }) => name === dnsname);
         if(dnsentry) {
