@@ -168,8 +168,8 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
                 log(`Found ${serverfiles.length} files to purge\n Puring files`);
                 // max purge 30 urls at once
                 const chunkSize = 30 - 1;
-                for (let i = 0; i < array.length; i += chunkSize) {
-                    const chunk = array.slice(i, i + chunkSize);
+                for (let i = 0; i < serverfiles.length; i += chunkSize) {
+                    const chunk = serverfiles.slice(i, i + chunkSize);
                     await cf.zones.purgeCache(zoneid, { files : chunk });
                 }
                 log(`Cache purged with ${serverfiles.length} files purged\n Done`);
