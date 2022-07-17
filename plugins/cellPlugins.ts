@@ -30,6 +30,7 @@ import { defaultSlate, customizedSlate } from './slate';
 import customContentPluginTwitter from './customContentPluginTwitter';
 import codeSnippet from './codeSnippet';
 import contactForm from './contactForm';
+import accordionPlugin from './accordionPlugin';
 
 const fakeImageUploadService =
   (defaultUrl) => (file, reportProgress) => {
@@ -64,6 +65,8 @@ export const cellPlugins = [
   customContentPluginTwitter,
   codeSnippet,
   contactForm,
+  
+  accordionPlugin,
 
   background({
     imageUpload: fakeImageUploadService('/images/sea-bg.jpg'),
