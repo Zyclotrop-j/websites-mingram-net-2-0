@@ -61,8 +61,11 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
     const t = (await template).toString();
     await withTmpDir(async (dir) => {
         await fs.mkdir(`${dir}/pages`);
-        await (fs.writeFile(`${dir}/pages/index.html`, 
-            `<!DOCTYPE html><html><body><h1>index.html</h1></body></html>`
+        await (fs.writeFile(`${dir}/pages/index.tsx`, 
+            `import React from 'react'; 
+            export default function DefaultIndex() {
+              return <div>index page</div>;
+            }`
         ));
         pages.forEach((doc) => {
             const { title, content } = doc.data();
