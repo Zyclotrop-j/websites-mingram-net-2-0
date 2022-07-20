@@ -25,6 +25,9 @@ write all the widgets
 
 provide sample pages / widget-configurations as snippets
 
+speed up build by copying one set of data to tmp as template
+-> then pre-copy to env and only fill in database related things + build
+
 test on mobile
 
 implement delete
