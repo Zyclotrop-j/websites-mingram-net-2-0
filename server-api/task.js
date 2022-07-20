@@ -172,7 +172,6 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
                 const chunkSize = 30 - 1;
                 for (let i = 0; i < serverfiles.length; i += chunkSize) {
                     const chunk = serverfiles.slice(i, i + chunkSize);
-                    log(`Purging ${chunk.length} files: ${chunk.join(', ')}`);
                     await cf.zones.purgeCache(zoneid, { files : chunk });
                 }
                 log(`Cache purged with ${serverfiles.length} files purged\n Done`);
