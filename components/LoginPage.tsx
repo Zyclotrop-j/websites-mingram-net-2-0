@@ -4,6 +4,7 @@ import { Login, LoginForm } from "react-admin";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from "firebase/compat/app";
 import ForgotPasswordButton from './CustomForgotPassword'
+import SignUpScreen from './CustomSignUpScreen';
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -36,13 +37,10 @@ const SignInScreen = () => <StyledFirebaseAuth
 
 const CustomLoginForm = props => (
   <div>
-    <div style={{fontFamily: "monospace", marginLeft: '15px'}}>
-      <p>Username: test@example.com</p>
-      <p>Password: password</p>
-    </div>
     <LoginForm {...props} />
     <SignInScreen />
     <ForgotPasswordButton {...props} />
+    <SignUpScreen {...props} />
   </div>
 );
 

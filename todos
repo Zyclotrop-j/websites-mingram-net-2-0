@@ -6,11 +6,16 @@ configure http2 and server-push
 - Cross-Origin-Opener-Policy: same-origin
 - Cross-Origin-Embedder-Policy: require-corp
 
-make image-upload and responsive images
--> put files in private and move to custom server (behind cf) on publish?
-OR start with unsplash?
+make image-upload DONE
+move files from firebase to build/deployment server todo
 
-implement sign-up (new user)
+make asset-management
+
+unsplash support?
+
+responsive images
+
+implement sign-up (new user) DONE
 
 publish editor tool tto some website
 -> make ci/cd pipeline

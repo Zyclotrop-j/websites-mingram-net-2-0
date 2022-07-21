@@ -20,7 +20,7 @@ import {
     // Your own, previously initialized firebase app instance
     // app: firebaseAppInstance,
     // Enable logging of react-admin-firebase
-    logging: true,
+    logging: false,
     // Resources to watch for realtime updates, will implicitly watch all resources by default, if not set.
     watch: [],
     // Resources you explicitly dont want realtime updates for
