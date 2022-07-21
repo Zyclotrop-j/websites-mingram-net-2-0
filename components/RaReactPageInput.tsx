@@ -2,18 +2,20 @@ import { Paper } from '@mui/material';
 import type { EditorProps } from '@react-page/editor';
 import Editor from '@react-page/editor';
 import React from 'react';
-
 import { Labeled, useInput } from 'react-admin';
+import { ThemeProvider } from '@mui/material/styles';
 
 export type RaReactPageInputProps = {
   label?: string;
   source: string;
   style?: React.CSSProperties;
+  muitheme: {};
 } & EditorProps;
 export const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   label = 'Content',
   source,
   style,
+  muitheme,
   ...editorProps
 }) => {
   const {
@@ -46,7 +48,7 @@ export const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
             ...style,
           }}
         >
-          <Editor value={value} onChange={onChange} {...editorProps} />
+          <Editor value={value} uiTheme={muitheme} onChange={onChange} {...editorProps} />
         </Paper>
       </>
     </Labeled>

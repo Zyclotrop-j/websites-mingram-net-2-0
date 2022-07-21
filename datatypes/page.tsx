@@ -13,10 +13,14 @@ import {
   SelectInput,
   ReferenceField
 } from 'react-admin';
-import { useGetIdentity } from 'react-admin';
+import { createTheme } from '@mui/material/styles';
+import { useRecordContext, useGetOne } from "react-admin";
 
 import { ourCellPlugins } from '../pages/reactadmin';
 import { useUid } from "../utils/UidContext";
+
+
+import { red } from '@mui/material/colors';
 
 
 const PageList = (props: any) => {
@@ -43,6 +47,31 @@ const PageList = (props: any) => {
   );
 };
 
+const RAAdminWrapper = (props) => {
+  const uid = useUid();
+  const record = useRecordContext();
+  const { data, error } = useGetOne(
+    `users/${uid}/sites`,
+    record?.site_id,
+    { enabled: !!record?.site_id }
+  );
+  const theme = createTheme({
+    palette: {
+      type: 'dark',
+      primary: {
+        main: red[500],
+      },
+    },
+    typography: {
+      h1: {
+        fontSize: '6rem',
+      },
+    },
+    foo: data?.theme, // todo!!
+  });
+  return (<RaReactPageInput muitheme={theme} {...props} />)
+}
+
 export const PageEdit = (props: any) => {
   const uid = useUid();
 
@@ -57,11 +86,11 @@ export const PageEdit = (props: any) => {
           <TextInput source="title" />
         </>
         <div style={{minWidth: '80vw', minHeight: '600px'}}>
-          <RaReactPageInput
-                style={{}}
-                source="content"
-                label="Content"
-                cellPlugins={ourCellPlugins} />
+          <RAAdminWrapper 
+            style={{}}
+            source="content"
+            label="Content"
+            cellPlugins={ourCellPlugins} />
         </div>
       </SimpleForm>
     </Edit>

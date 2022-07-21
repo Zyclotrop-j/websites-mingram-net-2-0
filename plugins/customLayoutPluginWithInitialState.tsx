@@ -1,5 +1,5 @@
 import React from 'react';
-import { defaultSlate, customizedSlate } from './slate';
+import { defaultSlate } from './slate';
 
 const customLayoutPluginWithInitialState = {
   id: 'custom-layout-plugin-initial-state',

@@ -25,7 +25,7 @@ import customContentPlugin from './customContentPlugin';
 import customContentPluginWithListField from './customContentPluginWithListField';
 import customLayoutPlugin from './customLayoutPlugin';
 import customLayoutPluginWithInitialState from './customLayoutPluginWithInitialState';
-import { defaultSlate, customizedSlate } from './slate';
+import { defaultSlate } from './slate';
 import customContentPluginTwitter from './customContentPluginTwitter';
 import codeSnippet from './codeSnippet';
 import contactForm from './contactForm';
@@ -58,7 +58,6 @@ const fakeImageUploadService =
 
 export const cellPlugins = [
   defaultSlate,
-  customizedSlate,
   spacer,
   customizedImagePlugin,
   video,

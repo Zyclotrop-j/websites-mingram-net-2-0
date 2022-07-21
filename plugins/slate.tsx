@@ -1,8 +1,11 @@
 import slate from '@react-page/plugins-slate';
 import React from 'react';
+import Typography from '@mui/material/Typography';
+import styled from 'styled-components';
 import customSlatePlugin from './customSlatePlugin';
 import katexSlatePlugin from './katexSlatePlugin';
-import styled from 'styled-components';
+
+import { useTheme } from '@mui/material/styles';
 
 
 // you can further customize slate to your needs
@@ -20,6 +23,19 @@ export const defaultSlate = slate((def) => ({
     },
     // here we do not use all plugins, but select them
     headings: {
+      h1: def.plugins.headings.h1((d) => {
+        return {
+          ...d,
+          Component: (props) => {
+            const theme = useTheme();
+            // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!", theme)
+            return (<Typography variant={'h1'} sx={props.style} {...props.attributes}>
+                {props.children}
+            </Typography>);
+          },
+        };
+      }),
+
       h2: def.plugins.headings.h2,
 
       // you can also customize default slate plugins easily!
@@ -76,5 +92,3 @@ export const defaultSlate = slate((def) => ({
     alignment: def.plugins.alignment,
   },
 }));
-
-export const customizedSlate = defaultSlate;

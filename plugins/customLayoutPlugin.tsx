@@ -1,5 +1,5 @@
 import React from 'react';
-import { defaultSlate, customizedSlate } from './slate';
+import { defaultSlate } from './slate';
 
 const customLayoutPlugin = {
   Renderer: ({ children, data }) => (
@@ -24,10 +24,10 @@ const customLayoutPlugin = {
       ],
       [
         {
-          plugin: customizedSlate,
+          plugin: defaultSlate,
         },
         {
-          plugin: customizedSlate,
+          plugin: defaultSlate,
         },
       ],
     ];

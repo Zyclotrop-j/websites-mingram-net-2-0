@@ -18,11 +18,6 @@ import { useAuthProvider } from 'react-admin';
 import { useUid } from "../utils/UidContext"
 
 const SiteList = (props: any) => {
-  //const { identity, isLoading: identityLoading } = useGetIdentity();
-  //const { email, init } = useGetEmail();
-  //if(!init) { return null };
-  //console.log("!!!!!", email)
-
   const uid = useUid();
   return (
     <>

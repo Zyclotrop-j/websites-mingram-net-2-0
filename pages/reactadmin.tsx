@@ -15,13 +15,11 @@ import '@react-page/plugins-slate/lib/index.css';
 import '@react-page/plugins-image/lib/index.css';
 
 import { generateClassName } from '../utils/generateClassName';
-import { customSlate } from '../plugins/slatePluginLinkFromReactAdminSource';
-import { recommendedProducts } from '../plugins/slatePluginProductFromReactAdminSource';
+// import { customSlate } from '../plugins/slatePluginLinkFromReactAdminSource';
+// import { recommendedProducts } from '../plugins/slatePluginProductFromReactAdminSource';
 
 export const ourCellPlugins = [
-  customSlate,
-  recommendedProducts,
-  ...cellPlugins.filter((p) => p.id !== DEFAULT_SLATE_PLUGIN_ID),
+  ...cellPlugins,
 ];
 
 const DynamicAdminComponent = dynamic(
