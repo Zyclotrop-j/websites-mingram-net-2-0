@@ -135,6 +135,8 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             }
             }, null, "  ")
         ));
+
+        // todo: get images from firebase '/images/<userid>/<siteId>/* and copy to server under /images/<imagename>
     
         await Promise.all(writeOps);
 

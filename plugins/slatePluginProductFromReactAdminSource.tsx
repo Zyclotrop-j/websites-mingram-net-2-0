@@ -9,7 +9,6 @@ import { Record as RecordType } from 'ra-core';
 import { CellPlugin } from '@react-page/editor';
 import { RaSelectReferenceInputField } from '@react-page/react-admin';
 import React, { useEffect, useState } from 'react';
-import { dataProvider } from '../utils/dataProvider';
 
 const ProductIdSelector = (props) => (
   // pass the props
@@ -25,9 +24,10 @@ const ProductTeaser = ({ productId }) => {
   // for this example, we use the dataprovider, but in real-live-applications, that would not be the case
   const [product, setProduct] = useState<RecordType | null>(null);
   useEffect(() => {
-    dataProvider
-      .getOne('products', { id: productId })
-      .then((r) => setProduct(r.data));
+    import('../utils/provider').then(
+      dataProvider => dataProvider.getOne('products', { id: productId })
+      .then((r) => setProduct(r.data))
+    );
   }, [productId]);
   return product ? (
     <Card>

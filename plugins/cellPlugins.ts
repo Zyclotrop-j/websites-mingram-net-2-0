@@ -10,8 +10,7 @@ import divider from '@react-page/plugins-divider';
 import html5video from '@react-page/plugins-html5-video';
 import '@react-page/plugins-html5-video/lib/index.css';
 
-// The image plugin
-import { imagePlugin } from '@react-page/plugins-image';
+// The image plugin-css
 import '@react-page/plugins-image/lib/index.css';
 
 // The spacer plugin
@@ -31,24 +30,29 @@ import customContentPluginTwitter from './customContentPluginTwitter';
 import codeSnippet from './codeSnippet';
 import contactForm from './contactForm';
 import accordionPlugin from './accordionPlugin';
+import customizedImagePlugin from "./customImagePlugin";
 
 const fakeImageUploadService =
-  (defaultUrl) => (file, reportProgress) => {
-    return new Promise((resolve, reject) => {
-      let counter = 0;
-      const interval = setInterval(() => {
-        counter++;
-        reportProgress(counter * 10);
-        if (counter > 9) {
-          clearInterval(interval);
-          alert(
-            'Image has not actually been uploaded to a server. Check documentation for information on how to provide your own upload function.'
-          );
-          resolve({ url: URL.createObjectURL(file) });
-        }
-      }, 100);
-    });
-  };
+  (defaultUrl) => {
+    return (file, reportProgress, ...rest) => {
+      return new Promise((resolve, reject) => {
+        let counter = 0;
+        const interval = setInterval(() => {
+          counter++;
+          reportProgress(counter * 10);
+          if (counter > 9) {
+            clearInterval(interval);
+            alert(
+              'Image has not actually been uploaded to a server. Check documentation for information on how to provide your own upload function.'
+            );
+            resolve({ url: URL.createObjectURL(file) });
+          }
+        }, 100);
+      });
+    };
+  }
+
+
 
 // Define which plugins we want to use.
 
@@ -56,7 +60,7 @@ export const cellPlugins = [
   defaultSlate,
   customizedSlate,
   spacer,
-  imagePlugin({ imageUpload: fakeImageUploadService('/images/react.png') }),
+  customizedImagePlugin,
   video,
   divider,
   html5video,
