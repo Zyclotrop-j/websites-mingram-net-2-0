@@ -41,3 +41,7 @@ implement saveable snippets (e.g. menu on each page)
 
 implement server-functionality (e.g. contact-form) and integrations (e.g. typeform, shopify)
 
+darkmode support, see https://mui.com/material-ui/customization/dark-mode/
+
+choose-font support
+

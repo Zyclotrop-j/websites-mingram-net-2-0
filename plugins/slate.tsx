@@ -1,12 +1,27 @@
 import slate from '@react-page/plugins-slate';
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import styled from 'styled-components';
 import customSlatePlugin from './customSlatePlugin';
 import katexSlatePlugin from './katexSlatePlugin';
 
 import { useTheme } from '@mui/material/styles';
 
+
+const mapToTypographyFacotory = (varient: string | undefined, other = {}) => d => {
+  return {
+    ...d,
+    Component: (props) => {
+      return (<Typography variant={varient} sx={props.style} {...props.attributes} {...other}>
+          {props.children}
+      </Typography>);
+    },
+  };
+};
 
 // you can further customize slate to your needs
 export const defaultSlate = slate((def) => ({
@@ -18,77 +33,41 @@ export const defaultSlate = slate((def) => ({
     ...def.plugins,
     // you can also add custom plugins. The namespace `custom` is just for organizing plugins
     custom: {
-      custom1: customSlatePlugin,
-      katex: katexSlatePlugin,
+      //custom1: customSlatePlugin,
+      //katex: katexSlatePlugin,
     },
     // here we do not use all plugins, but select them
     headings: {
-      h1: def.plugins.headings.h1((d) => {
-        return {
-          ...d,
-          Component: (props) => {
-            const theme = useTheme();
-            // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!", theme)
-            return (<Typography variant={'h1'} sx={props.style} {...props.attributes}>
-                {props.children}
-            </Typography>);
-          },
-        };
-      }),
-
-      h2: def.plugins.headings.h2,
-
-      // you can also customize default slate plugins easily!
-      // e.g. change just the style:
-      h3: def.plugins.headings.h3((d) => {
-        return {
-          ...d, // this is the default configuration of this plugin
-          // we can override properties, like `getStyle`:
-          getStyle: (props) => ({ ...d.getStyle?.(props), color: 'magenta' }),
-        };
-      }),
-      //  we can also replace the component that renders the plugin
-      h4: def.plugins.headings.h4((d) => {
-        return {
-          ...d,
-          Component: (props) => {
-            return (
-              // be sure to mixin attributes, this is required for slate
-              <h4 style={props.style} {...props.attributes}>
-                {/* if you add custom html into slate, set  contentEditable={false}*/}
-                <span contentEditable={false} role="img" aria-label="Ladybug">
-                  🐞
-                </span>
-                {props.children}
-                <span contentEditable={false} role="img" aria-label="Heart">
-                  {' '}
-                  ❤️
-                </span>
-              </h4>
-            );
-          },
-        };
-      }),
-      h5: def.plugins.headings.h5((d) => {
-        return {
-          ...d,
-          // if you use styled-components, you can use it as well
-          Component: styled.h5`
-            text-decoration: underline;
-            font-style: italic;
-          `,
-        };
-      }),
+      h1: def.plugins.headings.h1(mapToTypographyFacotory('h1')),
+      h2: def.plugins.headings.h2(mapToTypographyFacotory('h2')),
+      h3: def.plugins.headings.h3(mapToTypographyFacotory('h3')),
+      h4: def.plugins.headings.h4(mapToTypographyFacotory('h4')),
+      h5: def.plugins.headings.h5(mapToTypographyFacotory('h5')),
+      h6: def.plugins.headings.h6(mapToTypographyFacotory('h6')),
     },
     paragraphs: {
-      paragraph: def.plugins.paragraphs.paragraph((d) => {
-        return {
-          ...d,
-          Component: props => <p data-foo="bar">{props.children}</p>
-        };
-      })
+      paragraph: def.plugins.paragraphs.paragraph(mapToTypographyFacotory('body1')),
+      pre: def.plugins.paragraphs.pre(mapToTypographyFacotory(undefined, { component: 'pre' })),
+    },
+    link: {
+      anchor: def.plugins.link.anchor(d => d),
+      link: def.plugins.link.link(d => ({
+        ...d,
+        Component: (props) => {
+          return (<Link variant='inherit' sx={props.style} {...props.attributes}>
+              {props.children}
+          </Link>);
+        },
+      }))
+    },
+    lists: {/* createSimpleHtmlBlockPlugin */},
+    quotes: {},
+    code: {
+      mark: def.plugins.code.mark(d=>d),
+      // block
     },
     emphasize: def.plugins.emphasize,
+    // em strong underline
     alignment: def.plugins.alignment,
   },
 }));

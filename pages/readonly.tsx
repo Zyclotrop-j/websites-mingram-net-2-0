@@ -25,6 +25,8 @@ const theme = createTheme({
   // TODO add value from site here!!!
 });
 
+// CssBaseline ??
+
 export default function ReadOnlyExample() {
   // you would usually load SAMPLE_CONTENT from some api / endpoint / database
   return (

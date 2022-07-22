@@ -1,3 +1,19 @@
 .mui-ra-RaLayout-content-4.mui-ra-RaLayout-content-4 {
     padding-left: 0;
 }
+.ColorInput-popup {
+    position: absolute;
+    z-index: 99;
+}
+.ColorInput-cover {
+    z-index: -1;
+    position: fixed;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+}
+.slider-picker.slider-picker {
+    width: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: white;
+}
