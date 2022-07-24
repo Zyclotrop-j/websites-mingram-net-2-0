@@ -94,9 +94,12 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             }`
         ));
         pages.forEach((doc) => {
-            const { title, content } = doc.data();
+            const { title, content, theme = {}, advanced } = doc.data();
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
-            t.replace('"PAGE_CONTENT"', ensureJSON(content, sanitize(doc.id)))
+            t
+                .replace('"PAGE_CONTENT"', ensureJSON(content, sanitize(doc.id)))
+                .replace('"PAGE_THEME"', ensureJSON(theme, `theme of ${sanitize(doc.id)}`))
+                .replace('"ADVANCED_THEME"', advanced ? 'true' : 'false')
             ));
         });
         await (fs.writeFile(`${dir}/pages/_app.js`, 

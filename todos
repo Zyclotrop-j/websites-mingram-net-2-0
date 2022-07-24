@@ -7,7 +7,7 @@ configure http2 and server-push
 - Cross-Origin-Embedder-Policy: require-corp
 
 make image-upload DONE
-IMPORTANT move files from firebase to build/deployment server todo
+IMPORTANT move asset-files/images from firebase to build/deployment server todo
 
 make asset-management
 
@@ -20,7 +20,7 @@ implement sign-up (new user) DONE
 IMPORTANT publish editor tool to some website
 -> make ci/cd pipeline
 
-IMPORTANT implement theming support
+IMPORTANT implement theming support DONE
 
 IMPORTANT implement suport for publishing status (server-send-events)
 

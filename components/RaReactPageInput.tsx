@@ -4,6 +4,7 @@ import Editor from '@react-page/editor';
 import React from 'react';
 import { Labeled, useInput } from 'react-admin';
 import { ThemeProvider } from '@mui/material/styles';
+import { ThemeAsCssAttr } from "../utils/themeAsCssAttr";
 
 export type RaReactPageInputProps = {
   label?: string;
@@ -26,7 +27,7 @@ export const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
     const bytesize = new Blob([json]).size;
     const MAX_FIRESTORE_DOCUMETN_SIZE = 10e6; // 1MB max size - other properties, but this one will take neglitable space
     const percent = bytesize / MAX_FIRESTORE_DOCUMETN_SIZE * 100;
-    console.log(`Saving a website of ${bytesize}bytes (${percent}% of max)`)
+    console.log(`Website has a size of ${bytesize}bytes (${percent}% of max)`)
     return change(json);
   };
   let value = v;
@@ -48,6 +49,7 @@ export const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
             ...style,
           }}
         >
+          <ThemeAsCssAttr theme={muitheme} />
           <Editor value={value} uiTheme={muitheme} onChange={onChange} {...editorProps} />
         </Paper>
       </>

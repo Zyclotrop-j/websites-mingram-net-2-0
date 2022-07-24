@@ -13,7 +13,7 @@ import {
   SelectInput,
   ReferenceField
 } from 'react-admin';
-import { createTheme } from '@mui/material/styles';
+import { ThemeOptions } from '@mui/material/styles';
 import { useRecordContext, useGetOne } from "react-admin";
 
 import { ourCellPlugins } from '../pages/reactadmin';
@@ -21,7 +21,7 @@ import { useUid } from "../utils/UidContext";
 
 
 import { red } from '@mui/material/colors';
-
+import { createTheme } from '../utils/createTheme';
 
 const PageList = (props: any) => {
   //const { identity, isLoading: identityLoading } = useGetIdentity();
@@ -55,20 +55,7 @@ const RAAdminWrapper = (props) => {
     record?.site_id,
     { enabled: !!record?.site_id }
   );
-  const theme = createTheme({
-    palette: {
-      type: 'dark',
-      primary: {
-        main: red[500],
-      },
-    },
-    typography: {
-      h1: {
-        fontSize: '6rem',
-      },
-    },
-    foo: data?.theme, // todo!!
-  });
+  const theme = createTheme(data);
   return (<RaReactPageInput muitheme={theme} {...props} />)
 }
 
@@ -115,3 +102,4 @@ export const pages = {
   create: PageCreate,
   edit: PageEdit,
 };
+
