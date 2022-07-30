@@ -72,7 +72,43 @@ const ensureJSON = (content, docId) => {
         const json = JSON.parse(content);
         return JSON.stringify(json);
     } catch(e) {
-        throw new Error(`Detected invalid content in document ${docId}`)
+        return {
+            "version":1,
+            "id":"5zpved",
+            "rows":[
+               {
+                  "id":"58x7t7",
+                  "cells":[
+                     {
+                        "plugin":{
+                           "id":"ory/editor/core/content/slate",
+                           "version":1
+                        },
+                        "size":12,
+                        "dataI18n":{
+                           "default":{
+                              "slate":[
+                                 {
+                                    "type":"PARAGRAPH/PARAGRAPH",
+                                    "children":[
+                                       {
+                                          "text":"This site has no or corrupted content. Please return to the editor."
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        },
+                        "id":"klljud",
+                        "rows":[
+                           
+                        ],
+                        "inline":null
+                     }
+                  ]
+               },
+            ]
+        };
     }
 };
 
@@ -101,7 +137,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         pages.forEach((doc) => { // pages is NOT an array, hence map doesn't work
             const { title, content, theme: pagetheme = {}, advanced: pageadvanced = false, site_id } = doc.data();
             if(site_id !== site.id) return; // skip pages not belonging to this site
-            
+
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
             t
                 .replace('"PAGE_CONTENT"', ensureJSON(content, sanitize(doc.id)))
