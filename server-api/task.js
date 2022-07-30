@@ -99,7 +99,9 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         ));
         const sitemap = [];
         pages.forEach((doc) => { // pages is NOT an array, hence map doesn't work
-            const { title, content, theme: pagetheme = {}, advanced: pageadvanced = false } = doc.data();
+            const { title, content, theme: pagetheme = {}, advanced: pageadvanced = false, site_id } = doc.data();
+            if(site_id !== site.id) return; // skip pages not belonging to this site
+            
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
             t
                 .replace('"PAGE_CONTENT"', ensureJSON(content, sanitize(doc.id)))
