@@ -7,7 +7,7 @@ configure http2 and server-push
 - Cross-Origin-Embedder-Policy: require-corp
 
 make image-upload DONE
-IMPORTANT move asset-files/images from firebase to build/deployment server todo
+IMPORTANT move asset-files/images from firebase to build/deployment server DONE
 
 make asset-management
 
