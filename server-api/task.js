@@ -160,7 +160,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         ));
         const createDir = await fs.mkdir(`${dir}/public/images/`, { recursive: true });
         const bucket = getStorage().bucket('gs://websites-mingram-net-2-0.appspot.com')
-        const [files] = await bucket.getFiles({prefix: 'images/'+userid});
+        const [files] = await bucket.getFiles({ prefix: `images/${user_id}` });
         await Promise.all(files.map(async file => {
             const fext = mime.extension(file.metadata.contentType) || file.metadata.contentType.split('/').pop() || '';
             const fname = file.name.split('/').pop();
@@ -186,9 +186,9 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         
         log("Copied folders\n Running yarn....")
     
-        const { stdout, stderr } = await exec(`cd ${dir} && yarn`);
+        await exec(`cd ${dir} && yarn`);
         log("Ran yarn\n Running build....");
-        const { stdout2, stderr2 } = await exec(`cd ${dir} && yarn build`);
+        await exec(`cd ${dir} && yarn build`);
         log("Ran build\n Copying to targetdir")
     
         await fs.mkdir(`/var/www/d/${sansiteid}`, { recursive: true });
