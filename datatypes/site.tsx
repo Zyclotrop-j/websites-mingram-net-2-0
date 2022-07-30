@@ -71,13 +71,9 @@ const PublishButton = () => {
     });
     const jsonresponse = await rawresponse.json();
     console.log(jsonresponse);
-    // on  we get server-send-events
-    // EventSourcePolyfill
     const { EventSourcePolyfill } = await import('event-source-polyfill');
     const es = new EventSourcePolyfill("https://build-websites.mingram.net/sse", { // automatically scoped to the current user via token
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     });
     const listener = function (event) {
       const type = event.type;
@@ -86,6 +82,7 @@ const PublishButton = () => {
     es.addEventListener("open", listener);
     es.addEventListener("message", listener);
     es.addEventListener("error", listener);
+    es.addEventListener("close", listener);
   }, [record.id]);
   return <Button onClick={publish}>Publish</Button>;
 };
