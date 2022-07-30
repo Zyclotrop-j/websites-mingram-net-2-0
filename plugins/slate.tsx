@@ -71,3 +71,4 @@ export const defaultSlate = slate((def) => ({
     alignment: def.plugins.alignment,
   },
 }));
+export const customizedSlate = defaultSlate;

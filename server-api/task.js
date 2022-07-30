@@ -15,6 +15,7 @@ const cloudlfare = require('cloudflare');
 
 const zoneid = 'd76e37dc8e30f49f8948833bdd2cbd55';
 const contentServerIp = '152.69.163.246';
+const domain = 'mingram.net';
 
 const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(`${__dirname}/websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`)?.toString();
 if(!serviceAccount) {
@@ -90,10 +91,10 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         await (fs.writeFile(`${dir}/pages/index.tsx`, 
             `import React from 'react'; 
             export default function DefaultIndex() {
-              return <div>index page</div>;
+              return <div>please add a page called index to add a default page</div>;
             }`
         ));
-        pages.forEach((doc) => {
+        const sitemap = pages.map((doc) => {
             const { title, content, theme = {}, advanced } = doc.data();
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
             t
@@ -101,6 +102,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
                 .replace('"PAGE_THEME"', ensureJSON(theme, `theme of ${sanitize(doc.id)}`))
                 .replace('"ADVANCED_THEME"', advanced ? 'true' : 'false')
             ));
+            return sanitize(title);
         });
         await (fs.writeFile(`${dir}/pages/_app.js`, 
             (await fs.readFile(path.join(currentdir, `../pages/_app.js`))).toString()
@@ -149,7 +151,13 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             fse.copy(path.join(currentdir, `../plugins/`), `${dir}/plugins/`),
             fse.copy(path.join(currentdir, `../styles/`), `${dir}/styles/`),
             fse.copy(path.join(currentdir, `../node_modules/`), `${dir}/node_modules/`),
+            fse.copy(path.join(currentdir, `../public/`), `${dir}/public/`),
         ]);
+        await (fs.writeFile(`${dir}/public/sitemap.txt`, 
+            `https://${sansiteid}-d.${domain}/
+            ${sitemap.map(i => `https://${sansiteid}-d.${domain}/${encodeURIComponent(i)}`).join('\n')}`
+        ));
+        
         log("Copied folders\n Running yarn....")
     
         const { stdout, stderr } = await exec(`cd ${dir} && yarn`);

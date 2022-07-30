@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "sideEffects": false,
+  "license": "UNLICENSED",
+  "author": "Jannes Mingram <sitecloud@jannes.mingram.net> (http://jannes.mingram.net/)",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export -o build && touch build/.nojekyll",
