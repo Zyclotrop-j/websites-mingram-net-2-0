@@ -120,6 +120,7 @@ const ImageHtmlRenderer = (
 ) => {
   const { data } = props;
   const uid = useUid();
+  console.log("!!!!!!!!!!!!!!", data)
   const src = uid ? null : makeProdUrl(data?.src);
   const [editSource, setEditSource] = useState<string | undefined>();
   useEffect(() => {
@@ -206,7 +207,8 @@ const imageUploadService =
         updatedby,
       } = record;
 
-      const refname = `images/${user.uid}/${site_id}/${nanoid()}`;
+      const newfilename = nanoid();
+      const refname = `images/${user.uid}/${site_id}/${newfilename}`;
       
       const imagesRef = ref(storage, refname);
       

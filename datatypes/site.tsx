@@ -68,7 +68,7 @@ const PublishButton = () => {
         });
         const json = await es.json();
         setBuildState(json);
-        if(!Object.keys(json).length) { // done, build-request has been deleted from server as its done 
+        if(!Object.keys(json).length) { // done, build-request has been deleted from server as it's done 
           setIsPublishing(false)
         }
     },
@@ -94,7 +94,7 @@ const PublishButton = () => {
     setIsPublishing(true);
   }, [record.id]);
   
-  const buildprogress = Object.values(buildState).map(({ data }) => data).flat(1);
+  const buildprogress = Object.values(buildState).map(i => i.map(({data}) => data)).flat(2);
   return <>
     <pre>{!buildprogress.length ? "" : JSON.stringify(buildprogress, null, "")}</pre>
     <Button disabled={isPublishing} onClick={publish}>Publish</Button>
