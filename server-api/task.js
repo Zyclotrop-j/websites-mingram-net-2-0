@@ -72,7 +72,7 @@ const ensureJSON = (content, docId) => {
         const json = JSON.parse(content);
         return JSON.stringify(json);
     } catch(e) {
-        return {
+        return JSON.stringify({
             "version":1,
             "id":"5zpved",
             "rows":[
@@ -108,7 +108,7 @@ const ensureJSON = (content, docId) => {
                   ]
                },
             ]
-        };
+        });
     }
 };
 
