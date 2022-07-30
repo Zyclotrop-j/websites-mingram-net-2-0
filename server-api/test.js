@@ -112,10 +112,19 @@ fastify.post('/', {
   channel.port2.on('message', (message) => {
     const { kind, data } = JSON.parse(message);
     request.log[kind](...data);
+    const tryCatch = (fn) => {
+      try {
+        fn();
+      } catch(e) {
+        request.log.error(e);
+      }
+    }
     if(ssecbsperuser[user_id]) {
-      ssecbsperuser[user_id].values().forEach((cb) => {
-        cb({ user_id, siteid, request_id, data });
-      });
+      tryCatch(() => {
+        Array.from(ssecbsperuser[user_id].values()).forEach((cb) => {
+          tryCatch(() => cb({ user_id, siteid, request_id, data }));
+        });
+      })
     }
   });
 
