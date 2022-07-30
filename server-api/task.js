@@ -158,7 +158,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             `https://${sansiteid}-d.${domain}/
             ${sitemap.map(i => `https://${sansiteid}-d.${domain}/${encodeURIComponent(i)}`).join('\n')}`
         ));
-        const createDir = await mkdir(`${dir}/public/images/`, { recursive: true });
+        const createDir = await fs.mkdir(`${dir}/public/images/`, { recursive: true });
         const bucket = getStorage().bucket('gs://websites-mingram-net-2-0.appspot.com')
         const [files] = await bucket.getFiles({prefix: 'images/'+userid});
         await Promise.all(files.map(async file => {
