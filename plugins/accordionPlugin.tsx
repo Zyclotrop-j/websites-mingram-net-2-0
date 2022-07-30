@@ -1,6 +1,6 @@
 import React from 'react';
 import { Accordion, AccordionItemWidget } from "../components/Widget/Accordion";
-import { defaultSlate, customizedSlate } from './slate';
+import { defaultSlate } from './slate';
 import { cellPlugins } from"./cellPlugins"; 
 
 const customAccordionItemPlugin = {
@@ -20,15 +20,15 @@ const customAccordionItemPlugin = {
     return [
       [
         {
-          plugin: customizedSlate,
+          plugin: defaultSlate,
         }
       ],
       [
         {
-          plugin: customizedSlate,
+          plugin: defaultSlate,
         },
         {
-          plugin: customizedSlate,
+          plugin: defaultSlate,
         },
       ],
     ];

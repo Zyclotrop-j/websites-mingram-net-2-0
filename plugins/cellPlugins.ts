@@ -21,16 +21,17 @@ import '@react-page/plugins-spacer/lib/index.css';
 import video from '@react-page/plugins-video';
 import '@react-page/plugins-video/lib/index.css';
 
-import customContentPlugin from './customContentPlugin';
-import customContentPluginWithListField from './customContentPluginWithListField';
-import customLayoutPlugin from './customLayoutPlugin';
-import customLayoutPluginWithInitialState from './customLayoutPluginWithInitialState';
+//import customContentPlugin from './customContentPlugin';
+//import customContentPluginWithListField from './customContentPluginWithListField';
+//import customLayoutPlugin from './customLayoutPlugin';
+//import customLayoutPluginWithInitialState from './customLayoutPluginWithInitialState';
 import { defaultSlate } from './slate';
-import customContentPluginTwitter from './customContentPluginTwitter';
+//import customContentPluginTwitter from './customContentPluginTwitter';
 import codeSnippet from './codeSnippet';
-import contactForm from './contactForm';
+//import contactForm from './contactForm';
 import accordionPlugin from './accordionPlugin';
-import customizedImagePlugin from "./customImagePlugin";
+import customizedImagePlugin from "./imagePlugin";
+import baseBoxPlugin from './baseBox';
 
 const fakeImageUploadService =
   (defaultUrl) => {
@@ -63,11 +64,11 @@ export const cellPlugins = [
   video,
   divider,
   html5video,
-  customContentPlugin,
-  customContentPluginWithListField,
-  customContentPluginTwitter,
+  //customContentPlugin,
+  //customContentPluginWithListField,
+  //customContentPluginTwitter,
   codeSnippet,
-  contactForm,
+  //contactForm,
   
   accordionPlugin,
 
@@ -78,6 +79,7 @@ export const cellPlugins = [
       ModeEnum.IMAGE_MODE_FLAG |
       ModeEnum.GRADIENT_MODE_FLAG,
   }),
-  customLayoutPlugin,
-  customLayoutPluginWithInitialState,
+  baseBoxPlugin,
+  //customLayoutPlugin,
+  //customLayoutPluginWithInitialState,
 ];

@@ -1,10 +1,10 @@
 IMPORTANT test publishing new sites
 
-configure nginx headers for efficient caching on everything
-configure other heads e.g. csp, feature-policy, client-hints, x-frame, ...
-configure http2 and server-push
-- Cross-Origin-Opener-Policy: same-origin
-- Cross-Origin-Embedder-Policy: require-corp
+configure nginx headers for efficient caching on everything DONE
+configure other heads e.g. csp, feature-policy, client-hints, x-frame, ... DONE
+configure http2 and server-push DONE 1 of 2 (can't do server-push)
+- Cross-Origin-Opener-Policy: same-origin DONE
+- Cross-Origin-Embedder-Policy: require-corp DONE
 
 make image-upload DONE
 IMPORTANT move asset-files/images from firebase to build/deployment server DONE
