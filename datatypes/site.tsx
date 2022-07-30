@@ -94,7 +94,7 @@ const PublishButton = () => {
     setIsPublishing(true);
   }, [record.id]);
   
-  const buildprogress = Object.values(buildState).map(i => i.map(({data}) => data)).flat(2);
+  const buildprogress = Object.values(buildState).map(i => i.map(({data}) => data)).flat(2).map(i => i.split("\n").map(q => q.trim())).flat();
   return <>
     <pre>{!buildprogress.length ? "" : JSON.stringify(buildprogress, null, "\t")}</pre>
     <Button disabled={isPublishing} onClick={publish}>Publish</Button>

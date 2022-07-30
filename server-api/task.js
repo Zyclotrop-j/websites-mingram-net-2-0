@@ -125,6 +125,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
     const pages = await db.collection(`users/${user_id}/pages`).get();
     const writeOps = [];
     const t = (await template).toString();
+    log("Started build\n Creating folders and index files....")
     await withTmpDir(async (dir) => {
         await fs.mkdir(`${dir}/pages`);
         await (fs.writeFile(`${dir}/pages/index.tsx`, 
@@ -133,6 +134,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
               return <div>please add a page called index to add a default page</div>;
             }`
         ));
+        log("Created folders and index files\n Creating pages.....")
         const sitemap = [];
         pages.forEach((doc) => { // pages is NOT an array, hence map doesn't work
             const { title, content, theme: pagetheme = {}, advanced: pageadvanced = false, site_id } = doc.data();
@@ -182,10 +184,10 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             }
             }, null, "  ")
         ));
-
+        log("Created generic pages\n Creating custom content pages.....")
         await Promise.all(writeOps);
 
-        log("Copied file\n Copying folders....")
+        log("Created all pages\n Copying script, style and utility folders....")
         await Promise.all([
             fse.copy(path.join(currentdir, `../components/`), `${dir}/components/`),
             fse.copy(path.join(currentdir, `../utils/`), `${dir}/utils/`),
@@ -196,8 +198,9 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         ]);
         await (fs.writeFile(`${dir}/public/sitemap.txt`, 
             `https://${sansiteid}-d.${domain}/
-            ${sitemap.map(i => `https://${sansiteid}-d.${domain}/${encodeURIComponent(i)}`).join('\n')}`
+${sitemap.map(i => `https://${sansiteid}-d.${domain}/${encodeURIComponent(i)}`).join('\n')}`
         ));
+        log("Copyed script, style and utility folders\n Creating images")
         const createDir = await fs.mkdir(`${dir}/public/images/`, { recursive: true });
         const bucket = getStorage().bucket('gs://websites-mingram-net-2-0.appspot.com')
         const [files] = await bucket.getFiles({ prefix: `images/${user_id}` });
@@ -224,19 +227,19 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             }));
         }));
         
-        log("Copied folders\n Running yarn....")
+        log("Created images\n Installing dependencies....")
     
         await exec(`cd ${dir} && yarn`);
-        log("Ran yarn\n Running build....");
+        log("Installed dependendcies\n Building and optimising files....");
         await exec(`cd ${dir} && yarn build`);
-        log("Ran build\n Copying to targetdir")
+        log("All files build\n Copying files to target directory")
     
         await fs.mkdir(`/var/www/d/${sansiteid}`, { recursive: true });
         
         await fse.emptyDir(`/var/www/d/${sansiteid}/`);
         await fse.copy(`${dir}/build`, `/var/www/d/${sansiteid}/`, { overwrite: true });
 
-        log("Files successfully copied to targetdir\n Setting up dns or purging cache")
+        log("Files successfully copied to target directory\n Setting up dns and purging cache")
 
         try {
             const { result: records } = await cf.dnsRecords.browse(zoneid);
