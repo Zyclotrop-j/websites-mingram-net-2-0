@@ -96,7 +96,8 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
               return <div>please add a page called index to add a default page</div>;
             }`
         ));
-        const sitemap = pages.map((doc) => {
+        const sitemap = [];
+        pages.forEach((doc) => { // pages is NOT an array, hence map doesn't work
             const { title, content, theme = {}, advanced } = doc.data();
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
             t
@@ -104,7 +105,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
                 .replace('"PAGE_THEME"', ensureJSON(theme, `theme of ${sanitize(doc.id)}`))
                 .replace('"ADVANCED_THEME"', advanced ? 'true' : 'false')
             ));
-            return sanitize(title);
+            sitemap.push(sanitize(title));
         });
         await (fs.writeFile(`${dir}/pages/_app.js`, 
             (await fs.readFile(path.join(currentdir, `../pages/_app.js`))).toString()
