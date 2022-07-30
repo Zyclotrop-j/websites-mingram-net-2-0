@@ -22,7 +22,6 @@ const package = require('../package.json')
 
 fastify.register(require('@fastify/cors'), { 
   origin: (origin, cb) => {
-    console.log(origin);
     cb(null, true);
   },
   methods: ['GET', 'POST', 'OPTIONS'],
