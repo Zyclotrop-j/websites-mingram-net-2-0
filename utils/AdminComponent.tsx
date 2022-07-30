@@ -40,6 +40,7 @@ export default function AdminComponent() {
     authProvider={authProvider}
     loginPage={LoginPage}
     requireAuth
+    disableTelemetry
   >
     {dynamicResources}
   </Admin>;

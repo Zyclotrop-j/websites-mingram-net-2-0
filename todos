@@ -18,7 +18,7 @@ responsive images
 implement sign-up (new user) DONE
 
 IMPORTANT publish editor tool to some website
--> make ci/cd pipeline
+-> make ci/cd pipeline PARTIALLY COMPLETE
 
 IMPORTANT implement theming support DONE
 
@@ -44,4 +44,8 @@ implement server-functionality (e.g. contact-form) and integrations (e.g. typefo
 darkmode support, see https://mui.com/material-ui/customization/dark-mode/
 
 choose-font support
+
+migrate to sitecloud.io IMPORTANT
+- done: editor page
+- todo: individual server pages incl. sslsetup
 
