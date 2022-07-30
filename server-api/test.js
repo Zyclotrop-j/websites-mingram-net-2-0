@@ -134,6 +134,7 @@ fastify.get('/sse', (request, reply) => {
   ssecbsperuser[user_id] ??= new Set();
   let i = 0;
   const fn = (data) => {
+    reply.raw.setHeader("Access-Control-Allow-Origin","*");
     reply.sse({ id: `${data.request_id}-${++i}`, data: JSON.stringify(data) });
   };
   ssecbsperuser[user_id].add(fn)
