@@ -194,7 +194,8 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         log("Ran build\n Copying to targetdir")
     
         await fs.mkdir(`/var/www/d/${sansiteid}`, { recursive: true });
-        // todo: clear directory to remove files that no longer exist!
+        
+        await fse.emptyDir(`/var/www/d/${sansiteid}/`);
         await fse.copy(`${dir}/build`, `/var/www/d/${sansiteid}/`, { overwrite: true });
 
         log("Files successfully copied to targetdir\n Setting up dns or purging cache")
