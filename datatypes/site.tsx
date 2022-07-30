@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import React, { useState, useEffect, useCallback } from 'react';
+import { useIntervalWhen } from "rooks";
 import {
   Create,
   Datagrid,
@@ -56,6 +57,23 @@ const PublishButton = () => {
   
   const authProvider = useAuthProvider();
   const record = useRecordContext();
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [buildState, setBuildState] = useState({});
+  useIntervalWhen(
+    async () => {
+      const es = await fetch("https://build-websites.mingram.net/progress", { // automatically scoped to the current user via token
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const json = await es.json();
+        setBuildState(json);
+        if(!Object.keys(json).length) { // done, build-request has been deleted from server as its done 
+          setIsPublishing(false)
+        }
+    },
+    1000 * 5, // run callback every 5 second
+    isPublishing, // start the timer when it's true
+    false // no need to wait for the first interval
+  );
   const publish = useCallback(async () => {
     const user = await authProvider.checkAuth();
     const token = await user.getIdToken(false);
@@ -71,16 +89,14 @@ const PublishButton = () => {
     });
     const jsonresponse = await rawresponse.json();
     console.log(jsonresponse);
-    const interval = setInterval(async () => {
-      const es = await fetch("https://build-websites.mingram.net/progress", { // automatically scoped to the current user via token
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const json = await es.json();
-      console.log(json);
-    }, 500);
-    setTimeout(() => clearInterval(interval), 1000 * 60 * 3);
+    setIsPublishing(true);
   }, [record.id]);
-  return <Button onClick={publish}>Publish</Button>;
+  
+  const buildprogress = Object.values(buildState).map(({ data }) => data);
+  return <>
+    <pre>{JSON.stringify(buildprogress, null, "")}</pre>
+    <Button disabled={!isPublishing} onClick={publish}>Publish</Button>
+  </>;
 };
 
 const fontStyleChoices = [

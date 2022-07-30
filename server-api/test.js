@@ -107,7 +107,7 @@ fastify.post('/', {
   const file = await template;
   
   ssecbsperuser[user_id] ??= {};
-  ssecbsperuser[user_id][request_id] ??= [];
+  ssecbsperuser[user_id][siteid] ??= [];
   const channel = new MessageChannel();
   channel.port2.on('message', (message) => {
     const { kind, data } = JSON.parse(message);
@@ -120,14 +120,14 @@ fastify.post('/', {
       }
     }
     
-    ssecbsperuser[user_id][request_id].push({ user_id, siteid, request_id, data });
+    ssecbsperuser[user_id][siteid].push({ user_id, siteid, request_id, data });
   });
 
   const result = piscina.run({ template: file.toString(), user_id, siteid, currentdir: __dirname, port: channel.port1 }, { transferList: [channel.port1] });
   result.then(i => console.log(i));
   result.then(() => {
     channel.port2.close();
-    delete ssecbsperuser[user_id][request_id];
+    delete ssecbsperuser[user_id][siteid];
   });
   
   return {};
@@ -136,6 +136,12 @@ fastify.get('/progress', (request, reply) => {
   const user_id = request.user.uid;
   ssecbsperuser[user_id] ??= {};
   reply.send(ssecbsperuser[user_id]);
+});
+fastify.get('/progress/:site', (request, reply) => {
+  const user_id = request.user.uid;
+  const site_id = request.params.site;
+  ssecbsperuser[user_id] ??= {};
+  reply.send(ssecbsperuser[user_id][siteid] ?? []);
 });
 
 // Run the server!
