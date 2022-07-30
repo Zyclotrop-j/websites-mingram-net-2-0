@@ -102,7 +102,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
             t
                 .replace('"PAGE_CONTENT"', ensureJSON(content, sanitize(doc.id)))
-                .replace('"PAGE_THEME"', ensureJSON(theme, `theme of ${sanitize(doc.id)}`))
+                .replace('"PAGE_THEME"', JSON.stringify(theme)) // theme is a json-object by nature - it's saved as an object in the db!
                 .replace('"ADVANCED_THEME"', advanced ? 'true' : 'false')
             ));
             sitemap.push(sanitize(title));
