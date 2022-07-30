@@ -142,6 +142,7 @@ fastify.get('/sse', (request, reply) => {
   ssecbsperuser[user_id] ??= new Set();
   let i = 0;
   const fn = (data) => {
+    request.log.info(`Emitting SSE to ${data.request_id}-${++i}`);
     reply.sse({ id: `${data.request_id}-${++i}`, data: JSON.stringify(data) });
   };
   ssecbsperuser[user_id].add(fn)
