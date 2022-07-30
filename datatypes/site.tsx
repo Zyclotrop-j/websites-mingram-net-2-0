@@ -74,7 +74,7 @@ const PublishButton = () => {
     },
     1000 * 5, // run callback every 5 second
     isPublishing, // start the timer when it's true
-    false // no need to wait for the first interval
+    true // no need to wait for the first interval
   );
   const publish = useCallback(async () => {
     const user = await authProvider.checkAuth();
