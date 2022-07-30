@@ -11,7 +11,6 @@ const fse = require('fs-extra');
 const util = require('util');
 const Piscina = require('piscina');
 const { resolve } = require('path');
-const {FastifySSEPlugin} = require("fastify-sse-v2");
 const { MessageChannel } = require('worker_threads');
 const exec = util.promisify(require('child_process').exec);
 
@@ -67,7 +66,6 @@ fastify.register(require('@fastify/rate-limit'), {
     return k;
   }
 });
-fastify.register(FastifySSEPlugin);
 
 const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT || fs2.readFileSync(path.join(__dirname, `websites-mingram-net-2-0-firebase-adminsdk-ci892-39916be6f9.json`))?.toString();
 if(!serviceAccount) {
@@ -108,6 +106,8 @@ fastify.post('/', {
 
   const file = await template;
   
+  ssecbsperuser[user_id] ??= {};
+  ssecbsperuser[user_id][request_id] ??= [];
   const channel = new MessageChannel();
   channel.port2.on('message', (message) => {
     const { kind, data } = JSON.parse(message);
@@ -119,35 +119,24 @@ fastify.post('/', {
         request.log.error(e);
       }
     }
-    if(ssecbsperuser[user_id]) {
-      tryCatch(() => {
-        ssecbsperuser[user_id].forEach((cb) => {
-          tryCatch(() => cb({ user_id, siteid, request_id, data }));
-        });
-      })
-    }
+    
+    ssecbsperuser[user_id][request_id].push({ user_id, siteid, request_id, data });
   });
 
   const result = piscina.run({ template: file.toString(), user_id, siteid, currentdir: __dirname, port: channel.port1 }, { transferList: [channel.port1] });
   result.then(i => console.log(i));
   result.then(() => {
     channel.port2.close();
+    delete ssecbsperuser[user_id][request_id];
   });
   
   return {};
 })
-fastify.get('/sse', (request, reply) => {
+fastify.get('/progress', (request, reply) => {
   const user_id = request.user.uid;
-
-  ssecbsperuser[user_id] ??= new Set();
-  let i = 0;
-  const fn = (data) => {
-    request.log.info(`Emitting SSE to ${data.request_id}-${++i}`);
-    reply.sse({ id: `${data.request_id}-${++i}`, data: JSON.stringify(data) });
-  };
-  ssecbsperuser[user_id].add(fn)
-  request.socket.on('close', () =>  ssecbsperuser[user_id].delete(fn))
-})
+  ssecbsperuser[user_id] ??= {};
+  reply.send(ssecbsperuser[user_id]);
+});
 
 // Run the server!
 const start = async () => {

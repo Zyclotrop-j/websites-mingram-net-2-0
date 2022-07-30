@@ -33,7 +33,6 @@
     "@react-page/plugins-video": "5.0.1",
     "@react-page/react-admin": "5.0.1",
     "check-password-strength": "^2.0.5",
-    "event-source-polyfill": "^1.0.26",
     "execa": "^6.1.0",
     "firebase": "^9.9.0",
     "lodash": "^4.17.21",
