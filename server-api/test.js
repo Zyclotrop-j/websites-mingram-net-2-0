@@ -121,7 +121,7 @@ fastify.post('/', {
     }
     if(ssecbsperuser[user_id]) {
       tryCatch(() => {
-        Array.from(ssecbsperuser[user_id].values()).forEach((cb) => {
+        ssecbsperuser[user_id].forEach((cb) => {
           tryCatch(() => cb({ user_id, siteid, request_id, data }));
         });
       })
