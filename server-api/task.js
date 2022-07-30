@@ -149,8 +149,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         log("Copied file\n Copying folders....")
         await Promise.all([
             fse.copy(path.join(currentdir, `../components/`), `${dir}/components/`),
-            fse.copy(path.join(currentdir, `../utils/createTheme.tsx`), `${dir}/utils/createTheme.tsx`),
-            fse.copy(path.join(currentdir, `../utils/themeAsCssAttr.tsx`), `${dir}/utils/themeAsCssAttr.tsx`),
+            fse.copy(path.join(currentdir, `../utils/`), `${dir}/utils/`),
             fse.copy(path.join(currentdir, `../plugins/`), `${dir}/plugins/`),
             fse.copy(path.join(currentdir, `../styles/`), `${dir}/styles/`),
             fse.copy(path.join(currentdir, `../node_modules/`), `${dir}/node_modules/`),
