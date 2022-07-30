@@ -1,6 +1,8 @@
 const admin = require("firebase-admin");
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
+const { getStorage } = require('firebase-admin/storage');
+const mime = require('mime-types');
 const fs = require('node:fs/promises');
 const fs2 = require('node:fs');
 const os = require('os');
@@ -141,8 +143,6 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             }, null, "  ")
         ));
 
-        // todo: get images from firebase '/images/<userid>/<siteId>/* and copy to server under /images/<imagename>
-    
         await Promise.all(writeOps);
 
         log("Copied file\n Copying folders....")
@@ -157,6 +157,31 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
             `https://${sansiteid}-d.${domain}/
             ${sitemap.map(i => `https://${sansiteid}-d.${domain}/${encodeURIComponent(i)}`).join('\n')}`
         ));
+        const createDir = await mkdir(`${dir}/public/images/`, { recursive: true });
+        const bucket = getStorage().bucket('gs://websites-mingram-net-2-0.appspot.com')
+        const [files] = await bucket.getFiles({prefix: 'images/'+userid});
+        await Promise.all(files.map(async file => {
+            const fext = mime.extension(file.metadata.contentType) || file.metadata.contentType.split('/').pop() || '';
+            const fname = file.name.split('/').pop();
+            await fs.writeFile(`${dir}/public/images/${fname}.${fext}`, file.createReadStream());
+            await fs.writeFile(`${dir}/public/images/${fname}.${fext}.json`, JSON.stringify({
+                name: `${fname}.${fext}`,
+                selfLink: `https://${sansiteid}-d.${domain}/images/${fname}.${fext}`,
+                bucket: `${sansiteid}-d`,
+                generation: file.metadata.generation,
+                metageneration: file.metadata.metageneration,
+                contentType: file.metadata.contentType,
+                size: file.metadata.size,
+                md5Hash: file.metadata.md5Hash,
+                contentDisposition: file.metadata.contentDisposition,
+                etag: file.metadata.etag,
+                timeCreated: file.metadata.timeCreated,
+                updated: file.metadata.updated,
+                original: file.metadata.metadata.name,
+                user: file.metadata.metadata.user,
+                site: file.metadata.metadata.site,
+            }));
+        }));
         
         log("Copied folders\n Running yarn....")
     
