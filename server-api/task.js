@@ -14,6 +14,7 @@ const { parentPort } = require('worker_threads');
 const exec = util.promisify(require('child_process').exec);
 const package = require('../package.json');
 const cloudlfare = require('cloudflare');
+const lodash = require('lodash');
 
 const zoneid = 'd76e37dc8e30f49f8948833bdd2cbd55';
 const contentServerIp = '152.69.163.246';
@@ -83,7 +84,7 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
     const db = getFirestore();
     const site = await db.collection(`users/${user_id}/sites`).doc(siteid).get();
     const sansiteid = sanitize(site.id)?.toLowerCase();
-    const { title: sitetitle } = site.data();
+    const { title: sitetitle, theme = {}, advanced } = site.data();
     // 'x4iEJ2hndi8VU85zkIX7'
     const pages = await db.collection(`users/${user_id}/pages`).get();
     const writeOps = [];
@@ -98,12 +99,12 @@ module.exports = async ({ template, user_id, siteid, currentdir, port }) => {
         ));
         const sitemap = [];
         pages.forEach((doc) => { // pages is NOT an array, hence map doesn't work
-            const { title, content, theme = {}, advanced } = doc.data();
+            const { title, content, theme: pagetheme = {}, advanced: pageadvanced = false } = doc.data();
             writeOps.push(fs.writeFile(`${dir}/pages/${sanitize(title)}.tsx`, 
             t
                 .replace('"PAGE_CONTENT"', ensureJSON(content, sanitize(doc.id)))
-                .replace('"PAGE_THEME"', JSON.stringify(theme)) // theme is a json-object by nature - it's saved as an object in the db!
-                .replace('"ADVANCED_THEME"', advanced ? 'true' : 'false')
+                .replace('"PAGE_THEME"', JSON.stringify(lodash.merge({}, theme, pagetheme))) // theme is a json-object by nature - it's saved as an object in the db!
+                .replace('"ADVANCED_THEME"', (advanced || pageadvanced) ? 'true' : 'false')
             ));
             sitemap.push(sanitize(title));
         });
