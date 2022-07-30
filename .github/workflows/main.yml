@@ -27,4 +27,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.ID_RSA }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: /home/github_robot/run.sh
