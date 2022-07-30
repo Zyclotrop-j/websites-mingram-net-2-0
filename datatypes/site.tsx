@@ -61,6 +61,8 @@ const PublishButton = () => {
   const [buildState, setBuildState] = useState({});
   useIntervalWhen(
     async () => {
+      const user = await authProvider.checkAuth();
+      const token = await user.getIdToken(false);
       const es = await fetch("https://build-websites.mingram.net/progress", { // automatically scoped to the current user via token
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -94,7 +96,7 @@ const PublishButton = () => {
   
   const buildprogress = Object.values(buildState).map(({ data }) => data).flat(1);
   return <>
-    <pre>{JSON.stringify(buildprogress, null, "")}</pre>
+    <pre>{!buildprogress.length ? "" : JSON.stringify(buildprogress, null, "")}</pre>
     <Button disabled={isPublishing} onClick={publish}>Publish</Button>
   </>;
 };
