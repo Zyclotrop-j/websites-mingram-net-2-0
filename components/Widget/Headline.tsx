@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Link } from 'gatsby';
 import { Heading } from 'grommet';
 import { OutboundLink } from 'gatsby-plugin-gtag';

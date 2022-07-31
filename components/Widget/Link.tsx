@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as GLink } from 'gatsby';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Anchor } from "grommet";
 import { OutboundLink } from 'gatsby-plugin-gtag';
 import { MenuContext } from '../utils/menuContext';

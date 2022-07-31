@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Box, Text } from "grommet";
 import { Value as GValue } from 'grommet-controls';
 import posed, { PoseGroup } from 'react-pose';

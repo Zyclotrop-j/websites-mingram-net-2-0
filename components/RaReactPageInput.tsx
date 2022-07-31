@@ -1,10 +1,13 @@
 import { Paper } from '@mui/material';
+import styled from '@emotion/styled';
 import type { EditorProps } from '@react-page/editor';
 import Editor from '@react-page/editor';
 import React from 'react';
 import { Labeled, useInput } from 'react-admin';
 import { ThemeProvider } from '@mui/material/styles';
 import { ThemeAsCssAttr } from "../utils/themeAsCssAttr";
+
+const OverflowDiv = styled.div``;
 
 export type RaReactPageInputProps = {
   label?: string;
@@ -38,21 +41,10 @@ export const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   }
   return (
     <Labeled label={label} source={source} fullWidth>
-      <>
-        <Paper
-          elevation={5}
-          style={{
-            overflow: 'visible',
-            padding: 16,
-            marginRight: 64,
-
-            ...style,
-          }}
-        >
+      <OverflowDiv>
           <ThemeAsCssAttr theme={muitheme} />
           <Editor value={value} uiTheme={muitheme} onChange={onChange} {...editorProps} />
-        </Paper>
-      </>
+      </OverflowDiv>
     </Labeled>
   );
 };

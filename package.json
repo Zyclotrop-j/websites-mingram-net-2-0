@@ -34,12 +34,10 @@
     "@react-page/react-admin": "5.0.1",
     "check-password-strength": "^2.0.5",
     "chroma-js": "^2.4.2",
-    "execa": "^6.1.0",
     "firebase": "^9.9.0",
     "lodash": "^4.17.21",
     "nanoid": "^4.0.0",
     "next": "^12.1.2",
-    "ra-data-fakerest": "3.9.3",
     "react": "^17.0.0",
     "react-accessible-accordion": "^5.0.0",
     "react-admin": "^3.19.0",
@@ -54,17 +52,13 @@
     "react-twitter-widgets": "^1.9.5",
     "ress": "^5.0.2",
     "rooks": "^5.11.9",
-    "sanitize.css": "^13.0.0",
-    "styled-components": "^5.3.5"
+    "sanitize.css": "^13.0.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^10.0.3",
     "@types/node": "^18.0.3",
     "@types/react-syntax-highlighter": "^13.5.0",
-    "@types/styled-components": "^5.1.15",
-    "babel-plugin-styled-components": "^1.11.1",
     "raw-loader": "4.0.1",
-    "react-admin": "^3.14.2",
     "typescript": "^4.7.4"
   }
 }

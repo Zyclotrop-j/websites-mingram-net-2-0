@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { Link } from 'gatsby';
 import { OutboundLink } from 'gatsby-plugin-gtag';
 import { is, mergeDeepRight, memoizeWith } from "ramda";

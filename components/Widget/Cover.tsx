@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
 import { BaseBox } from "./BaseBox";
 
 export const uiSchema = {};

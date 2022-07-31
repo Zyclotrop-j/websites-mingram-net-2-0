@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { load } from 'recaptcha-v3'
 import { Form, FormField, TextInput, TextArea, Button, MaskedInput } from "grommet";
 import { Spinning } from 'grommet-controls';

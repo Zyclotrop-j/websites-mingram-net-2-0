@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { ColorInput } from '../../utils/themeValueInputs';
+import styled from '@emotion/styled';
+import { ColorInput, SpaceInput, SizeInput } from '../../utils/themeValueInputs';
 
 export const uiSchema = {};
 
@@ -12,27 +12,32 @@ export const schema = {
     "maxWidth": {
       "description": "A maximum width",
       "default": "unset",
-      "type": "string"
+      "type": "string",
+      ...SizeInput,
     },
     "minWidth": {
       "description": "A minimum width",
       "default": "unset",
-      "type": "string"
+      "type": "string",
+      ...SizeInput,
     },
     "width": {
       "description": "A designated width",
       "default": "auto",
-      "type": "string"
+      "type": "string",
+      ...SizeInput,
     },
     "padding": {
       "description": "A CSS `padding` value",
       "default": "0px",
-      "type": "string"
+      "type": "string",
+      ...SpaceInput,
     },
     "borderWidth": {
       "description": "A CSS `border-width` value",
       "default": "0px",
-      "type": "string"
+      "type": "string",
+      ...SpaceInput,
     },
     "borderColor": {
       "description": "A CSS `border-color` value",

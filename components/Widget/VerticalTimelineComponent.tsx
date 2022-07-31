@@ -1,5 +1,6 @@
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import * as Icons from 'grommet-icons';
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import { colorIsDark  } from "grommet/utils";

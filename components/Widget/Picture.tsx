@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { tryCatch } from "ramda";
 import Img from 'gatsby-image';
 import { Anchor, Box, Text } from 'grommet';

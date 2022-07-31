@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Helmet } from "react-helmet";
 import { identity, tryCatch, pipe } from "ramda";
 const minifyJSON = pipe(

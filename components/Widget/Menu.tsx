@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import { OutboundLink } from 'gatsby-plugin-gtag';
-import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import styled from '@emotion/styled';
+import { Global, css, keyframes } from '@emotion/react';
 import { path, map, filter, T, assocPath } from "ramda";
 import { defaultProps, Anchor } from 'grommet';
 import RCMenu, { SubMenu, MenuItem } from 'rc-menu';
@@ -59,7 +60,7 @@ const StyledMenu = styled(RCMenu)`
 const SyledMenuItem = styled(MenuItem)``;
 const StyledSubMenu = styled(SubMenu)``;
 
-const RCStyle = createGlobalStyle`
+const RCStyle = css`
   .rc-menu {
     outline: none;
     margin-bottom: 0;
@@ -415,7 +416,7 @@ export class Menu extends React.PureComponent<Props> {
       });
     };
 
-    return (<><RCStyle /><MenuContext.Consumer>{
+    return (<><Global styles={RCStyle} /><MenuContext.Consumer>{
       ({ setMenuOpen: fnmenu = T }) => (<StyledMenu
         mode={mode || "vertical"}
         selectable={false}

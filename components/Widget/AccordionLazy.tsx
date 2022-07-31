@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion as YAccordion, AccordionPanel } from "grommet";
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import ReactDOM from 'react-dom';
 import LazyLoad from 'react-lazyload';
 import { once } from "ramda";

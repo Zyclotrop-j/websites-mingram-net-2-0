@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import LazyLoad from 'react-lazyload';
 import { useBatteryStatus } from "environment-aware-hooks/battery";
 

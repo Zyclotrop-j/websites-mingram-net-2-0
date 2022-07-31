@@ -43,8 +43,8 @@ const baseBox = {
     type: 'autoform',
     schema: {
       properties: {
+        ...schema.properties,
         ...gridArea,
-        ...schema.properties
       },
       required: schema.required || [],
     },

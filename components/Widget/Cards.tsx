@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { Box, Grid } from "grommet";
 import { identity, ap, map, append, zipObj } from "ramda";
 import { Value as GValue } from 'grommet-controls';

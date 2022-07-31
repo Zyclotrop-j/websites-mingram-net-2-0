@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import LazyLoad from 'react-lazyload';
 import { Spinning } from 'grommet-controls';
 import { StaticQuery, graphql } from 'gatsby';

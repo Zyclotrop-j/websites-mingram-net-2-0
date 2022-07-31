@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import styled from '@emotion/styled';
+import { ThemeProvider } from '@emotion/react'
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import { Grid as GGrid, ResponsiveContext, Box } from 'grommet';
@@ -105,11 +106,10 @@ export class Grid extends React.PureComponent<Props> {
     const gcolumns = columns
       ?.map(i => i?.split('-') || ['full'])
       ?.map(([min, max]) => (min === max || !min || !max ? t(min) || t(min || max) : [t(min), t(max)])) || ['full'];
-
+    const that = this;
     return (<HeadlineContext.Provider value={this.context + 1}>
-      <ThemeContext.Consumer>
-        {theme => {
-          this.smallbreakpoint = theme?.__breakpoints?.small;
+        {withTheme(({theme}) => {
+          that.smallbreakpoint = theme?.__breakpoints?.small;
           const smallbreakpoint = theme?.__breakpoints?.small || theme?.global?.breakpoints?.small?.value;
           return (<ResponsiveContext.Consumer>
             {size => (<GGrid
@@ -117,7 +117,7 @@ export class Grid extends React.PureComponent<Props> {
               className={className}
               rows={!isSmall ? ['full'] : gcolumns.map(alwaysauto)}
               columns={!isSmall ? gcolumns : ['full']}
-              areas={this.getAreas(columns, size === 'small')}
+              areas={that.getAreas(columns, size === 'small')}
               gap={gap}
               margin={margin}
               gridArea={gridArea}
@@ -131,8 +131,8 @@ export class Grid extends React.PureComponent<Props> {
               {content}
             </GGrid>)}
           </ResponsiveContext.Consumer>);
-        }}
-      </ThemeContext.Consumer>
+        })}
+      
     </HeadlineContext.Provider>);
   }
 

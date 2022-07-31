@@ -12,6 +12,92 @@
     --s4: calc(var(--s3) * var(--ratio));
     --s5: calc(var(--s4) * var(--ratio));
     --measure: 60ch;
+    --unset: unset;
+    --L05: 0.125rem;
+    --L1: 0.25rem;
+    --L15: 0.375rem;
+    --L2: 0.5rem;
+    --L25: 0.625rem;
+    --L3: 0.75rem;
+    --L35: 0.875rem;
+    --L4: 1rem;
+    --L5: 1.25rem;
+    --L6: 1.5rem;
+    --L7: 1.75rem;
+    --L8: 2rem;
+    --L9: 2.25rem;
+    --L10: 2.5rem;
+    --L12: 3rem;
+    --L14: 3.5rem;
+    --L16: 4rem;
+    --L20: 5rem;
+    --L24: 6rem;
+    --L28: 7rem;
+    --L32: 8rem;
+    --P05: 0.5em;
+    --P10: 1.0em;
+    --P15: 1.5em;
+    --P20: 2.0em;
+    --P25: 2.5em;
+    --P30: 3.0em;
+    --P35: 3.5em;
+    --P40: 4.0em;
+    --P50: 5.0em;
+    --P60: 6.0em;
+    --P70: 7.0em;
+    --P80: 8.0em;
+    --P90: 9.0em;
+    --P100: 10.0em;
+    --P120: 12.0em;
+    --max: max-content;
+    --min: min-content;
+    --full: 100%;
+    --n3xs: 14rem;
+    --n2xs: 16rem;
+    --xs: 20rem;
+    --sm: 24rem;
+    --md: 28rem;
+    --lg: 32rem;
+    --xl: 36rem;
+    --n2xl: 42rem;
+    --n3xl: 48rem;
+    --n4xl: 56rem;
+    --n5xl: 64rem;
+    --n6xl: 72rem;
+    --n7xl: 80rem;
+    --n8xl: 90rem;
+    --container-sm: 640px;
+    --container-md: 768px;
+    --container-lg: 1024px;
+    --container-xl: 1280px;
+    --L36: 9rem;
+    --L40: 10rem;
+    --L44: 11rem;
+    --L48: 12rem;
+    --L52: 13rem;
+    --L56: 14rem;
+    --L60: 15rem;
+    --L64: 16rem;
+    --L72: 18rem;
+    --L80: 20rem;
+    --L96: 24rem;
+    --P140: 14.0em;
+    --P160: 16.0em;
+    --P200: 20.0em;
+    --P240: 24.0em;
+    --P280: 28.0em;
+    --P320: 32.0em;
+    --P360: 36.0em;
+    --P400: 40.0em;
+    --P440: 44.0em;
+    --P480: 48.0em;
+    --P520: 52.0em;
+    --P560: 56.0em;
+    --P600: 60.0em;
+    --P640: 64.0em;
+    --P720: 72.0em;
+    --P800: 80.0em;
+    --P960: 96.0em;
   }
   * {
     max-inline-size: var(--measure);
@@ -23,7 +109,8 @@
   header,
   nav,
   main,
-  footer {
+  footer,
+  form {
     max-inline-size: none;
   }
 

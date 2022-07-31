@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { Resource, Admin, useAuthState, Button } from 'react-admin';
-import resources from "../datatypes/index";
+import resources, { publics } from "../datatypes/index";
 import { dataProvider, authProvider } from "./provider";
 import LoginPage from "../components/LoginPage";
 import { Provider } from "../utils/UidContext";
@@ -25,8 +25,9 @@ const dynamicResources = async (permissions) => {
     ))} />);
     return res;
   } catch(e) {
+    console.log(e, "rendering public", authProvider);
     return [
-      <Resource name="public" />
+      <Resource name="publics" {...publics} />
     ];
   }
 }

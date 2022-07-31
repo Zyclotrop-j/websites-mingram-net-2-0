@@ -72,7 +72,7 @@ export const PageEdit = (props: any) => {
           </ReferenceInput>
           <TextInput source="title" />
         </>
-        <div style={{minWidth: '80vw', minHeight: '600px'}}>
+        <div style={{minWidth: '80vw'}}>
           <RAAdminWrapper 
             style={{}}
             source="content"
