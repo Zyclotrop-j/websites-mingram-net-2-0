@@ -14,7 +14,8 @@ import {
   ReferenceField,
   SimpleFormIterator,
   ArrayInput,
-  AutocompleteArrayInput
+  AutocompleteArrayInput,
+  ReferenceArrayInput
 } from 'react-admin';
 import { ThemeOptions } from '@mui/material/styles';
 import { useRecordContext, useGetOne } from "react-admin";
@@ -80,11 +81,9 @@ export const PageEdit = (props: any) => {
           
           <TextInput source="menu.title" />
           <TextInput source="menu.icon" />
-          <AutocompleteArrayInput source="tags" choices={[
-              { id: 'programming', name: 'Programming' },
-              { id: 'lifestyle', name: 'Lifestyle' },
-              { id: 'photography', name: 'Photography' },
-          ]} />
+          <ReferenceArrayInput label="Tags" reference={`users/${uid}/tags`} source="tags">
+              <AutocompleteArrayInput />
+          </ReferenceArrayInput>
           
 
           <TextInput source="twitter.image" />
@@ -94,7 +93,6 @@ export const PageEdit = (props: any) => {
           <TextInput source="facebook.title" />
           <TextInput source="facebook.description" multiline />
           
-          Heide Geburtstag
         </>
         <div style={{minWidth: '80vw'}}>
           <RAAdminWrapper 
