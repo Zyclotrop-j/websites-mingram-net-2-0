@@ -40,12 +40,10 @@ export const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
     console.log(`Got invalid value for website`, v)
   }
   return (
-    <Labeled label={label} source={source} fullWidth>
-      <OverflowDiv>
-          <ThemeAsCssAttr theme={muitheme} />
-          <Editor value={value} uiTheme={muitheme} onChange={onChange} {...editorProps} />
-      </OverflowDiv>
-    </Labeled>
+    <OverflowDiv>
+        <ThemeAsCssAttr theme={muitheme} />
+        <Editor value={value} uiTheme={muitheme} onChange={onChange} {...editorProps} />
+    </OverflowDiv>
   );
 };
 

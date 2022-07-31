@@ -17,3 +17,6 @@
     padding-bottom: 10px;
     background: white;
 }
+#main-content {
+    padding-right: 0;
+}
