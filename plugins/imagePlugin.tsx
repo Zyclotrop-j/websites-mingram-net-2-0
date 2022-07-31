@@ -120,7 +120,6 @@ const ImageHtmlRenderer = (
 ) => {
   const { data } = props;
   const uid = useUid();
-  console.log("!!!!!!!!!!!!!!", data)
   const src = uid ? null : makeProdUrl(data?.src);
   const [editSource, setEditSource] = useState<string | undefined>();
   useEffect(() => {
