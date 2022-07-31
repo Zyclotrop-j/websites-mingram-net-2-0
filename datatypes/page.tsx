@@ -11,7 +11,10 @@ import {
   TextInput,
   ReferenceInput,
   SelectInput,
-  ReferenceField
+  ReferenceField,
+  SimpleFormIterator,
+  ArrayInput,
+  AutocompleteArrayInput
 } from 'react-admin';
 import { ThemeOptions } from '@mui/material/styles';
 import { useRecordContext, useGetOne } from "react-admin";
@@ -71,6 +74,27 @@ export const PageEdit = (props: any) => {
               <SelectInput optionText="title" />
           </ReferenceInput>
           <TextInput source="title" />
+          <TextInput source="description" multiline />
+          <TextInput source="excerpt" multiline />
+          <TextInput source="url" />
+          
+          <TextInput source="menu.title" />
+          <TextInput source="menu.icon" />
+          <AutocompleteArrayInput source="tags" choices={[
+              { id: 'programming', name: 'Programming' },
+              { id: 'lifestyle', name: 'Lifestyle' },
+              { id: 'photography', name: 'Photography' },
+          ]} />
+          
+
+          <TextInput source="twitter.image" />
+          <TextInput source="twitter.title" />
+          <TextInput source="twitter.description" multiline />
+          <TextInput source="facebook.image" />
+          <TextInput source="facebook.title" />
+          <TextInput source="facebook.description" multiline />
+          
+          Heide Geburtstag
         </>
         <div style={{minWidth: '80vw'}}>
           <RAAdminWrapper 
