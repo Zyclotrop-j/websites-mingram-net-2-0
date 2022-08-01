@@ -32,6 +32,7 @@ import codeSnippet from './codeSnippet';
 import accordionPlugin from './accordionPlugin';
 import customizedImagePlugin from "./imagePlugin";
 import baseBoxPlugin from './baseBox';
+import muicard from './muicard';
 
 const fakeImageUploadService =
   (defaultUrl) => {
@@ -80,6 +81,7 @@ export const cellPlugins = [
       ModeEnum.GRADIENT_MODE_FLAG,
   }),
   baseBoxPlugin,
+  muicard,
   //customLayoutPlugin,
   //customLayoutPluginWithInitialState,
 ];

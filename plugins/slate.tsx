@@ -70,4 +70,32 @@ export const defaultSlate = slate((def) => ({
     alignment: def.plugins.alignment,
   },
 }));
+export const singleLineSlate = slate((def) => ({
+  ...def,
+  name: def.id + '/singleline',
+  plugins: {
+    ...def.plugins,
+    custom: {},
+    headings: {},
+    paragraphs: {},
+    link: {
+      anchor: def.plugins.link.anchor(d => d),
+      link: def.plugins.link.link(d => ({
+        ...d,
+        Component: (props) => {
+          return (<Link variant='inherit' sx={props.style} {...props.attributes}>
+              {props.children}
+          </Link>);
+        },
+      }))
+    },
+    lists: {},
+    quotes: {},
+    code: {
+      mark: def.plugins.code.mark(d=>d),
+    },
+    emphasize: def.plugins.emphasize,
+    alignment: def.plugins.alignment,
+  },
+}));
 export const customizedSlate = defaultSlate;

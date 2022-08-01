@@ -11,7 +11,7 @@ import { useRecordContext } from 'react-admin';
 import { nanoid } from 'nanoid'
 import { useUid } from "../utils/UidContext";
 
-const ImageControls = (props) => {
+export const ImageControls = (props) => {
   const { t } = useUiTranslator();
   const record = useRecordContext();
   const onImageUplaod = useCallback(props.imageUpload(record), [record]);
@@ -27,6 +27,8 @@ const ImageControls = (props) => {
               imageUploaded={(image) =>
                 props.onChange({
                   src: image.url,
+                  autowidth: image.width,
+                  autoheight: image.height,
                 })
               }
             />
@@ -56,7 +58,7 @@ const ImageControls = (props) => {
       <br />
 
       {/* Image link textbox and checkbox */}
-      <TextField
+      {!props.plain && <TextField
         placeholder={t(props.translations?.hrefPlaceholder) ?? ''}
         label={t(props.translations?.hrefLabel) ?? ''}
         name="href"
@@ -67,9 +69,9 @@ const ImageControls = (props) => {
             href: e.target.value,
           })
         }
-      />
+      />}
 
-      <FormControlLabel
+      {!props.plain && <FormControlLabel
         control={
           <Checkbox
             checked={props.data.openInNewWindow ?? false}
@@ -81,9 +83,9 @@ const ImageControls = (props) => {
           />
         }
         label={t(props.translations?.openNewWindow)}
-      />
+      />}
 
-      <br />
+      {!props.plain && <br />}
       {/* Image's meta like alt... */}
       <TextField
         placeholder={t(props.translations?.altPlaceholder) ?? ''}
@@ -111,7 +113,7 @@ const iconStyle = {
   minHeight: 64,
   maxHeight: 256,
 };
-const makeProdUrl = url => {
+export const makeProdUrl = url => {
   return `/images/${url?.split('/').pop()}`; // get image name
 };
 const ImageIcon = lazyLoad(() => import('@mui/icons-material/Landscape'));
@@ -193,7 +195,7 @@ export const defaultTranslations = {
   uploadingError: 'Error while uploading',
   unknownError: 'Unknown error',
 };
-const imageUploadService =
+export const imageUploadService =
   (record) => {
     return async (file, reportProgress) => {
       const { authProvider } = await import("../utils/provider");
@@ -208,6 +210,22 @@ const imageUploadService =
 
       const newfilename = nanoid();
       const refname = `images/${user.uid}/${site_id}/${newfilename}`;
+
+      const widthHeightPromise = new Promise<{ width: number, height: number }>((res, rej) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image;
+        img.onload = function() {
+            const width = img.width;
+            const height = img.height;
+            URL.revokeObjectURL(img.src);
+            res({ width, height });
+        };
+        img.onerror = function(e) {
+          URL.revokeObjectURL(img.src);
+          rej(e);
+        }
+        img.src = url;
+      });
       
       const imagesRef = ref(storage, refname);
       
@@ -234,7 +252,8 @@ const imageUploadService =
           res(refname);
         }
       ));
-      return { url };
+      const {height, width} = await widthHeightPromise;
+      return { url, height, width };
     };
   }
 
