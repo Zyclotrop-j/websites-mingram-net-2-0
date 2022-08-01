@@ -99,100 +99,103 @@ const PathDisplay = () => {
   </Breadcrumbs>);
 }
 
-export const PageEdit = (props: any) => {
+const EditPageMetaDetails = () => {
   const uid = useUid();
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
   const toggle = () => setIsOpen(!isOpen);
+  return (<><Grid px={2}  bgcolor="grey.200" container direction="row" justifyContent="space-between" alignItems="center">
+      <PathDisplay />
+      <Button variant="text" size="large" onClick={toggle} endIcon={<TuneIcon />} >Edit Page Meta-data</Button>
+    </Grid>
+    <Drawer
+      anchor={'right'}
+      open={isOpen}
+      onClose={close}
+    >
+      <Box
+        sx={{ width: '80vw', padding: 4  }}
+        role="presentation"
+      >
+        <Grid container spacing={2} rowSpacing={1} columnSpacing={2}>
+          <Grid item xs={11} md={11}>
+            <Typography variant="h5" component="h2">Name and description</Typography>
+          </Grid>
+          <Grid item xs={1} md={1} textAlign="end">
+            <IconButton color="primary" aria-label="close" onClick={close}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={2} md={2}>
+            <ReferenceInput label="Site" source="site_id" reference={`users/${uid}/sites`} fullWidth>
+              <SelectInput optionText="title" fullWidth />
+            </ReferenceInput>
+          </Grid>
+          <Grid item xs={8} md={8}>
+            <TextInput source="title" fullWidth />
+          </Grid>
+          <Grid item xs={2} md={2}>
+            <TextInput disabled source="id" fullWidth />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextInput source="description" multiline fullWidth />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextInput source="excerpt" multiline fullWidth />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h5" component="h2">Path and representation in-page</Typography>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <TextInput source="url" fullWidth />
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <TextInput source="menu.title" fullWidth />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TextInput source="menu.icon" fullWidth />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h5" component="h2">Meta-data</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextInput source="twitter.image" fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextInput source="twitter.title" fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <TextInput source="twitter.description" multiline fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextInput source="facebook.image" fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <TextInput source="facebook.title" fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <TextInput source="facebook.description" multiline fullWidth />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h5" component="h2">Tags</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <ReferenceArrayInput label="Tags" reference={`users/${uid}/tags`} source="tags" fullWidth>
+                <AutocompleteArrayInput fullWidth />
+            </ReferenceArrayInput>
+          </Grid>
+        </Grid>
+      </Box>
+    </Drawer></>);
+}
+
+export const PageEdit = (props: any) => {
+  const uid = useUid();
 
   return (
     <Edit {...props} title="Edit a Page" >
       <CustomSimpleForm label="summary">
-        <>
-          <Grid px={2}  bgcolor="grey.200" container direction="row" justifyContent="space-between" alignItems="center">
-            <PathDisplay />
-            <Button variant="text" size="large" onClick={toggle} endIcon={<TuneIcon />} >Edit Page Meta-data</Button>
-          </Grid>
-          <Drawer
-            anchor={'right'}
-            open={isOpen}
-            onClose={close}
-          >
-            <Box
-              sx={{ width: '80vw', padding: 4  }}
-              role="presentation"
-            >
-              <Grid container spacing={2} rowSpacing={1} columnSpacing={2}>
-                <Grid item xs={11} md={11}>
-                  <Typography variant="h5" component="h2">Name and description</Typography>
-                </Grid>
-                <Grid item xs={1} md={1} textAlign="end">
-                  <IconButton color="primary" aria-label="close" onClick={close}>
-                    <CloseIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item xs={2} md={2}>
-                  <ReferenceInput label="Site" source="site_id" reference={`users/${uid}/sites`} fullWidth>
-                    <SelectInput optionText="title" fullWidth />
-                  </ReferenceInput>
-                </Grid>
-                <Grid item xs={8} md={8}>
-                  <TextInput source="title" fullWidth />
-                </Grid>
-                <Grid item xs={2} md={2}>
-                  <TextInput disabled source="id" fullWidth />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextInput source="description" multiline fullWidth />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextInput source="excerpt" multiline fullWidth />
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography variant="h5" component="h2">Path and representation in-page</Typography>
-                </Grid>
-                <Grid item xs={6} md={4}>
-                  <TextInput source="url" fullWidth />
-                </Grid>
-                <Grid item xs={6} md={4}>
-                  <TextInput source="menu.title" fullWidth />
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <TextInput source="menu.icon" fullWidth />
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography variant="h5" component="h2">Meta-data</Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <TextInput source="twitter.image" fullWidth />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <TextInput source="twitter.title" fullWidth />
-                </Grid>
-                <Grid item xs={12} sm={12} md={4}>
-                  <TextInput source="twitter.description" multiline fullWidth />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <TextInput source="facebook.image" fullWidth />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <TextInput source="facebook.title" fullWidth />
-                </Grid>
-                <Grid item xs={12} sm={12} md={4}>
-                  <TextInput source="facebook.description" multiline fullWidth />
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography variant="h5" component="h2">Tags</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <ReferenceArrayInput label="Tags" reference={`users/${uid}/tags`} source="tags" fullWidth>
-                      <AutocompleteArrayInput fullWidth />
-                  </ReferenceArrayInput>
-                </Grid>
-              </Grid>
-            </Box>
-          </Drawer>
-        </>
+        <EditPageMetaDetails />
         <div style={{minWidth: '80vw', width: 'auto'}}>
           <RAAdminWrapper 
             style={{}}
